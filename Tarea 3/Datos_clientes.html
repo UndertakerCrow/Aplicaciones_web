@@ -11,20 +11,39 @@
             <div id="contenedor">
                 <br><br>
                 <h1>Datos de Clientes</h1>
-                <form action="" method="">
+                <div id="alerta"> Por favor, complete todos los campos antes de enviar.</div>
+                <form action="" method="" onsubmit="return validar()">
                     <h3>Cedula</h3>
-                    <input class="ingresar" type="text" name="cedula" placeholder="Ingrese su cedula">
+                    <input class="ingresar" type="text" id="cedula" name="cedula" placeholder="Ingrese su cedula">
                     <h3>Nombre completo</h3>
-                    <input class="ingresar" type="text" name="nombre" placeholder="Ingrese su nombre completo">
+                    <input class="ingresar" type="text" id="nombre" name="nombre" placeholder="Ingrese su nombre completo">
                     <h3>Telefono</h3>
-                    <input class="ingresar" type="text" name="telefono" placeholder="Ingrese su numero de telefono">
+                    <input class="ingresar" type="text" id="telefono" name="telefono" placeholder="Ingrese su numero de telefono">
                     <h3>Direccion</h3>
-                    <input class="ingresar" type="text" name="direccion" placeholder="Ingrese su direccion">
+                    <input class="ingresar" type="text" id="direccion" name="direccion" placeholder="Ingrese su direccion">
                     <br><br>
                     <input class="boton" type="submit" value="Enviar">
                     <br><br>
                 </form>
             </div>
         </section>
+        <script>
+                var primer_saludo = "bienvenido!";
+                var segundo_saludo = primer_saludo;
+                primer_saludo = "Hello";
+                alert(segundo_saludo);
+            function validar() {
+                const campos = ['cedula', 'nombre', 'telefono', 'direccion'];
+                const vacio = campos.some(id => document.getElementById(id).value.trim() === '');
+                if (vacio) {
+                    document.getElementById('alerta').style.display = 'block';
+                    return false; // Evita que el formulario se envíe
+                } else {
+                    document.getElementById('alerta').style.display = 'none';
+                    alert('¡Cliente registrado exitosamente!');
+                    return true; // Permite el envío
+                }
+            }
+        </script>
     </body>
 </html>
