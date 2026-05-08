@@ -1,0 +1,21 @@
+<script type="text/javascript">
+    var numero1 = Number(prompt("Introduce un número: "));
+    var numero2 = Number(prompt("Introduce otro número: "));
+    var resultados = numero1 + numero2;
+    var resultador = numero1 - numero2;
+    var resultadom = numero1 * numero2;
+    var resuladomod = numero1 % numero2;
+    var resultadod;
+
+    if (numero2 !== 0) {
+        resultadod = numero1 / numero2;
+        alert("El resultado de la división es: " + resultadod);
+    } else {
+        alert("No se puede dividir por cero");
+    }
+
+    alert("Resultado de la suma: " + resultados);
+    alert("Resultado de la resta: " + resultador);
+    alert("Resultado de la multiplicación: " + resultadom);
+    alert("Resultado del módulo: " + resuladomod);
+</script>
