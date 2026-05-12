@@ -1,21 +1,161 @@
-<script type="text/javascript">
-    var numero1 = Number(prompt("Introduce un número: "));
-    var numero2 = Number(prompt("Introduce otro número: "));
-    var resultados = numero1 + numero2;
-    var resultador = numero1 - numero2;
-    var resultadom = numero1 * numero2;
-    var resuladomod = numero1 % numero2;
-    var resultadod;
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operaciones Matemáticas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #2c3e50;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
 
-    if (numero2 !== 0) {
-        resultadod = numero1 / numero2;
-        alert("El resultado de la división es: " + resultadod);
-    } else {
-        alert("No se puede dividir por cero");
-    }
+        .card {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 460px;
+            padding: 28px;
+            box-sizing: border-box;
+        }
 
-    alert("Resultado de la suma: " + resultados);
-    alert("Resultado de la resta: " + resultador);
-    alert("Resultado de la multiplicación: " + resultadom);
-    alert("Resultado del módulo: " + resuladomod);
-</script>
+        h1 {
+            margin-top: 0;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+
+        .input-group {
+            display: grid;
+            gap: 12px;
+            margin-bottom: 22px;
+        }
+
+        label {
+            font-size: 0.95rem;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #d7dee8;
+            border-radius: 8px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px 16px;
+            border: none;
+            border-radius: 8px;
+            background: #0077cc;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        button:hover {
+            background: #005fa3;
+        }
+
+        .results {
+            margin-top: 20px;
+            padding: 18px;
+            background: #f7fbff;
+            border: 1px solid #dbe9f7;
+            border-radius: 10px;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e4ecf5;
+            font-size: 1rem;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .error {
+            margin-top: 16px;
+            color: #c0392b;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Calculadora de Operaciones</h1>
+        <div class="input-group">
+            <div>
+                <label for="numero1">Número 1</label>
+                <input type="number" id="numero1" placeholder="Introduce el primer número" />
+            </div>
+            <div>
+                <label for="numero2">Número 2</label>
+                <input type="number" id="numero2" placeholder="Introduce el segundo número" />
+            </div>
+        </div>
+
+        <button id="calcularBtn">Calcular operaciones</button>
+        <div id="error" class="error" aria-live="polite"></div>
+
+        <div class="results" id="resultados">
+            <div class="result-item"><span>Suma:</span><span id="suma">-</span></div>
+            <div class="result-item"><span>Resta:</span><span id="resta">-</span></div>
+            <div class="result-item"><span>Multiplicación:</span><span id="multiplicacion">-</span></div>
+            <div class="result-item"><span>División:</span><span id="division">-</span></div>
+            <div class="result-item"><span>Módulo:</span><span id="modulo">-</span></div>
+        </div>
+    </div>
+
+    <script>
+        const $ = id => document.getElementById(id);
+        const numero1El = $('numero1');
+        const numero2El = $('numero2');
+        const errorEl = $('error');
+        const resultadoIds = ['suma', 'resta', 'multiplicacion', 'division', 'modulo'];
+        const resultadoEls = resultadoIds.map(id => $(id));
+        const calcularBtn = $('calcularBtn');
+
+        function calcularOperaciones() {
+            const [n1, n2] = [numero1El.value, numero2El.value].map(v => v.trim() === '' ? null : Number(v));
+
+            errorEl.textContent = '';
+            resultadoEls.forEach(el => el.textContent = '-');
+
+            if (n1 === null || n2 === null) {
+                errorEl.textContent = 'Por favor ingresa ambos números.';
+                return;
+            }
+
+            const resultados = [
+                n1 + n2,
+                n1 - n2,
+                n1 * n2,
+                n2 === 0 ? 'No se puede dividir por cero' : n1 / n2,
+                n1 % n2
+            ];
+
+            resultadoEls.forEach((el, i) => el.textContent = resultados[i]);
+        }
+
+        calcularBtn.addEventListener('click', calcularOperaciones);
+    </script>
+</body>
+</html>
