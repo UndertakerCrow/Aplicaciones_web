@@ -6,79 +6,183 @@
   <title>Inicio - Biblioteca ULEAM</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body { background: linear-gradient(to bottom, #f8fafc, #e2e8f0); }
+    .card-hover { 
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+    }
+    .card-hover:hover { 
+      transform: translateY(-8px); 
+      box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1); 
+    }
+  </style>
 </head>
 <body class="bg-gray-100">
   <div class="flex h-screen">
     <!-- Sidebar -->
-    <div class="w-72 bg-[#006633] text-white flex flex-col">
-      <div class="p-6 border-b border-green-700">
-        <h1 class="text-2xl font-bold">Biblioteca ULEAM</h1>
+    <div class="w-72 bg-[#006633] text-white flex flex-col shadow-2xl">
+      <div class="p-6 border-b border-green-700 bg-[#005522]">
+        <h1 class="text-2xl font-bold flex items-center gap-3">
+          <span class="text-3xl">📚</span> Biblioteca ULEAM
+        </h1>
       </div>
-      <nav class="p-4 space-y-1">
-        <a href="dashboard-estudiante.html" class="flex items-center gap-3 px-4 py-3 bg-green-700 rounded-xl"><i class="fas fa-home"></i> Inicio</a>
-        <a href="catalogo.html" class="flex items-center gap-3 px-4 py-3 hover:bg-green-700 rounded-xl"><i class="fas fa-book"></i> Catálogo</a>
-        <a href="mis-prestamos.html" class="flex items-center gap-3 px-4 py-3 hover:bg-green-700 rounded-xl"><i class="fas fa-hand-holding"></i> Mis Préstamos</a>
-        <a href="quejas.html" class="flex items-center gap-3 px-4 py-3 hover:bg-green-700 rounded-xl"><i class="fas fa-exclamation-triangle"></i> Quejas / Reclamos</a>
-        <a href="perfil.html" class="flex items-center gap-3 px-4 py-3 hover:bg-green-700 rounded-xl"><i class="fas fa-user"></i> Mi Perfil</a>
+      <nav class="p-4 flex-1 space-y-1">
+        <a href="dashboard-estudiante.html" class="flex items-center gap-3 px-4 py-3 bg-green-700 rounded-2xl"><i class="fas fa-home"></i> Inicio</a>
+        <a href="catalogo.html" class="flex items-center gap-3 px-4 py-3 hover:bg-green-700 rounded-2xl"><i class="fas fa-book"></i> Catálogo</a>
+        <a href="mis-prestamos.html" class="flex items-center gap-3 px-4 py-3 hover:bg-green-700 rounded-2xl"><i class="fas fa-hand-holding"></i> Mis Préstamos</a>
+        <a href="quejas.html" class="flex items-center gap-3 px-4 py-3 hover:bg-green-700 rounded-2xl"><i class="fas fa-exclamation-triangle"></i> Quejas</a>
+        <a href="perfil.html" class="flex items-center gap-3 px-4 py-3 hover:bg-green-700 rounded-2xl"><i class="fas fa-user"></i> Mi Perfil</a>
       </nav>
-      
-<!-- Botón Salir -->
       <div class="p-4 border-t border-green-700 mt-auto">
-        <button onclick="cerrarSesion()" 
-                class="w-full flex items-center justify-center gap-3 px-4 py-3 hover:bg-red-700 rounded-xl text-white transition">
-          <i class="fas fa-sign-out-alt"></i>
-          <span class="font-medium">Salir</span>
+        <button onclick="cerrarSesion()" class="w-full flex items-center justify-center gap-3 px-4 py-3 hover:bg-red-700 rounded-2xl text-white transition">
+          <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
         </button>
       </div>
     </div>
 
-    <!-- Main -->
+<!-- Main Content -->
     <div class="flex-1 overflow-auto">
-      <header class="bg-white shadow p-5 flex justify-between items-center">
-        <h2 class="text-2xl font-semibold">Bienvenido, Juan Pérez</h2>
-        <div class="flex items-center gap-4">
-          <i class="fas fa-bell text-xl"></i>
-          <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
+      <header class="bg-white shadow-sm border-b p-6 flex justify-between items-center">
+        <div>
+          <h2 class="text-3xl font-semibold text-gray-800">Bienvenido de nuevo, Juan Pérez</h2>
+          <p class="text-gray-600">¿Qué vamos a leer hoy?</p>
+        </div>
+        
+        <div class="flex items-center gap-6">
+          <!-- Campanita con dropdown -->
+          <div class="relative">
+            <button onclick="toggleNotificaciones()" class="text-2xl text-gray-600 hover:text-[#006633] transition relative">
+              <i class="fas fa-bell"></i>
+              <span class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">2</span>
+            </button>
+            
+            <!-- Dropdown Notificaciones -->
+            <div id="notificacionesDropdown" class="hidden absolute right-0 mt-3 w-80 bg-white rounded-3xl shadow-xl dropdown z-50">
+              <div class="p-4 border-b">
+                <h4 class="font-semibold">Notificaciones</h4>
+              </div>
+              <div class="max-h-80 overflow-auto">
+                <div class="p-4 border-b hover:bg-gray-50">
+                  <p class="font-medium text-sm">Tu préstamo de "1984" vence en 3 días</p>
+                  <p class="text-xs text-gray-500 mt-1">Hace 2 horas</p>
+                </div>
+                <div class="p-4 border-b hover:bg-gray-50">
+                  <p class="font-medium text-sm">Nuevo libro recomendado para ti</p>
+                  <p class="text-xs text-gray-500 mt-1">Ayer</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Perfil Clickable -->
+          <div onclick="window.location.href='perfil.html'" class="flex items-center gap-3 cursor-pointer hover:bg-gray-100 p-2 rounded-2xl transition">
+            <div class="text-right">
+              <p class="font-medium text-sm">Juan Pérez López</p>
+              <p class="text-xs text-gray-500">Estudiante</p>
+            </div>
+            <div class="w-10 h-10 bg-gradient-to-br from-green-600 to-emerald-700 rounded-2xl flex items-center justify-center text-white text-xl shadow cursor-pointer">👤</div>
+          </div>
         </div>
       </header>
 
       <div class="p-8">
-        <h3 class="text-xl font-semibold mb-6">Recomendados para ti</h3>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6" id="recomendados">
-          <!-- Llenado por JS -->
+      <div class="p-8">
+        <!-- Estadísticas -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+          <div class="bg-white rounded-3xl p-6 shadow card-hover">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center text-2xl">📚</div>
+              <div>
+                <p class="text-3xl font-bold text-[#006633]">2</p>
+                <p class="text-gray-600">Préstamos Activos</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white rounded-3xl p-6 shadow card-hover">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center text-2xl">⏳</div>
+              <div>
+                <p class="text-3xl font-bold text-amber-600">2</p>
+                <p class="text-gray-600">Por devolver pronto</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white rounded-3xl p-6 shadow card-hover">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center text-2xl">⚠️</div>
+              <div>
+                <p class="text-3xl font-bold text-red-600">0</p>
+                <p class="text-gray-600">Multas pendientes</p>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <!-- Recomendados -->
+        <h3 class="text-2xl font-semibold mb-6 text-gray-800">Recomendados para ti</h3>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="recomendados"></div>
+
+        <!-- Autores Destacados -->
+        <h3 class="text-2xl font-semibold mt-12 mb-6 text-gray-800">Autores Destacados</h3>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="autoresDestacados"></div>
       </div>
     </div>
   </div>
 
   <script>
-    const libros = [
+    const librosRecomendados = [
       {titulo:"Cien Años de Soledad", autor:"Gabriel García Márquez"},
       {titulo:"1984", autor:"George Orwell"},
       {titulo:"El Principito", autor:"Antoine de Saint-Exupéry"},
       {titulo:"Rayuela", autor:"Julio Cortázar"}
     ];
-    
+
+    const autores = [
+      {nombre:"Gabriel García Márquez", pais:"Colombia", obra:"Cien años de soledad"},
+      {nombre:"Jorge Luis Borges", pais:"Argentina", obra:"Ficciones"},
+      {nombre:"Julio Cortázar", pais:"Argentina", obra:"Rayuela"},
+      {nombre:"Isabel Allende", pais:"Chile", obra:"La casa de los espíritus"},
+      {nombre:"Mario Vargas Llosa", pais:"Perú", obra:"La ciudad y los perros"},
+      {nombre:"Carlos Fuentes", pais:"México", obra:"La muerte de Artemio Cruz"}
+    ];
+
     function renderRecomendados() {
       const container = document.getElementById('recomendados');
-      container.innerHTML = libros.map(l => `
-        <div class="bg-white rounded-2xl overflow-hidden shadow hover:shadow-xl transition">
-          <div class="h-52 bg-gray-200 flex items-center justify-center text-5xl">📖</div>
-          <div class="p-4">
-            <h4 class="font-semibold">${l.titulo}</h4>
+      container.innerHTML = librosRecomendados.map(l => `
+        <div class="card-hover bg-white rounded-3xl overflow-hidden shadow">
+          <div class="h-56 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center text-7xl">📖</div>
+          <div class="p-5">
+            <h4 class="font-semibold text-lg">${l.titulo}</h4>
             <p class="text-sm text-gray-500">${l.autor}</p>
-            <button onclick="alert('Redirigiendo a catálogo...')" class="mt-3 w-full bg-[#006633] text-white py-2 rounded-xl text-sm">Ver en Catálogo</button>
+            <button onclick="window.location.href='catalogo.html'" 
+                    class="mt-5 w-full bg-[#006633] hover:bg-[#005522] text-white py-3 rounded-2xl font-medium transition">
+              Ver en Catálogo
+            </button>
           </div>
         </div>
       `).join('');
     }
-    renderRecomendados();
 
-  function cerrarSesion() {
-    if (confirm("¿Estás seguro de que deseas cerrar sesión?")) {
-      window.location.href = "index.html";
+    function renderAutores() {
+      const container = document.getElementById('autoresDestacados');
+      container.innerHTML = autores.map(a => `
+        <div class="card-hover bg-white rounded-3xl p-6 shadow text-center">
+          <div class="w-16 h-16 mx-auto bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl flex items-center justify-center text-3xl mb-4">✍️</div>
+          <h4 class="font-semibold">${a.nombre}</h4>
+          <p class="text-sm text-gray-500">${a.pais}</p>
+          <p class="text-xs text-gray-400 mt-2 italic">"${a.obra}"</p>
+        </div>
+      `).join('');
     }
-  }
+
+    function cerrarSesion() {
+      if (confirm("¿Estás seguro de que deseas cerrar sesión?")) {
+        window.location.href = "index.html";
+      }
+    }
+
+    renderRecomendados();
+    renderAutores();
   </script>
 </body>
 </html>

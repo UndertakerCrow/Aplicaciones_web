@@ -6,64 +6,59 @@
   <title>Mi Perfil - Biblioteca ULEAM</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body { background: linear-gradient(to bottom, #f8fafc, #e2e8f0); }
+  </style>
 </head>
 <body class="bg-gray-100">
   <div class="flex h-screen">
-    <!-- Sidebar -->
-    <div class="w-72 bg-[#006633] text-white flex flex-col">
-      <div class="p-6 border-b border-green-700">
-        <h1 class="text-2xl font-bold">Biblioteca ULEAM</h1>
+    <div class="w-72 bg-[#006633] text-white flex flex-col shadow-2xl">
+      <div class="p-6 border-b border-green-700 bg-[#005522]">
+        <h1 class="text-2xl font-bold flex items-center gap-3"><span class="text-3xl">📚</span> Biblioteca ULEAM</h1>
       </div>
-      <nav class="p-4 space-y-1">
-        <a href="dashboard-estudiante.html" class="flex items-center gap-3 px-4 py-3 hover:bg-green-700 rounded-xl"><i class="fas fa-home"></i> Inicio</a>
-        <a href="catalogo.html" class="flex items-center gap-3 px-4 py-3 hover:bg-green-700 rounded-xl"><i class="fas fa-book"></i> Catálogo</a>
-        <a href="mis-prestamos.html" class="flex items-center gap-3 px-4 py-3 hover:bg-green-700 rounded-xl"><i class="fas fa-hand-holding"></i> Mis Préstamos</a>
-        <a href="quejas.html" class="flex items-center gap-3 px-4 py-3 hover:bg-green-700 rounded-xl"><i class="fas fa-exclamation-triangle"></i> Quejas</a>
-        <a href="perfil.html" class="flex items-center gap-3 px-4 py-3 bg-green-700 rounded-xl"><i class="fas fa-user"></i> Mi Perfil</a>
+      <nav class="p-4 flex-1 space-y-1">
+        <a href="dashboard-estudiante.html" class="sidebar-link flex items-center gap-3 px-4 py-3 hover:bg-green-700 rounded-2xl"><i class="fas fa-home"></i> Inicio</a>
+        <a href="catalogo.html" class="sidebar-link flex items-center gap-3 px-4 py-3 hover:bg-green-700 rounded-2xl"><i class="fas fa-book"></i> Catálogo</a>
+        <a href="mis-prestamos.html" class="sidebar-link flex items-center gap-3 px-4 py-3 hover:bg-green-700 rounded-2xl"><i class="fas fa-hand-holding"></i> Mis Préstamos</a>
+        <a href="quejas.html" class="sidebar-link flex items-center gap-3 px-4 py-3 hover:bg-green-700 rounded-2xl"><i class="fas fa-exclamation-triangle"></i> Quejas</a>
+        <a href="perfil.html" class="sidebar-link flex items-center gap-3 px-4 py-3 bg-green-700 rounded-2xl"><i class="fas fa-user"></i> Mi Perfil</a>
       </nav>
-
-      <!-- Botón Salir -->
       <div class="p-4 border-t border-green-700 mt-auto">
-        <button onclick="cerrarSesion()" 
-                class="w-full flex items-center justify-center gap-3 px-4 py-3 hover:bg-red-700 rounded-xl text-white transition">
-          <i class="fas fa-sign-out-alt"></i>
-          <span class="font-medium">Salir</span>
+        <button onclick="cerrarSesion()" class="w-full flex items-center justify-center gap-3 px-4 py-3 hover:bg-red-700 rounded-2xl text-white transition">
+          <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
         </button>
       </div>
     </div>
 
-    <!-- Main Content - Full Width -->
     <div class="flex-1 p-8 overflow-auto">
       <h2 class="text-3xl font-semibold mb-8">Mi Perfil</h2>
-      
-      <div class="max-w-2xl mx-auto bg-white rounded-3xl shadow-lg p-10">
+      <div class="max-w-2xl mx-auto bg-white rounded-3xl shadow-xl p-10">
         <div class="flex flex-col items-center mb-10">
-          <div class="w-32 h-32 bg-gray-200 rounded-full mb-4 flex items-center justify-center text-6xl">👤</div>
-          <h3 class="text-2xl font-semibold">Juan Pérez López</h3>
+          <div class="w-32 h-32 bg-gradient-to-br from-green-600 to-emerald-700 rounded-3xl flex items-center justify-center text-6xl text-white shadow-inner">👤</div>
+          <h3 class="text-2xl font-semibold mt-5">Juan Pérez López</h3>
           <p class="text-gray-600">estudiante@uleam.edu.ec</p>
         </div>
 
-        <div class="grid grid-cols-1 gap-6">
+        <div class="space-y-6">
           <div>
             <label class="block text-sm font-medium mb-2">Nombre Completo</label>
-            <input type="text" value="Juan Pérez López" class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#006633]">
+            <input type="text" value="Juan Pérez López" class="w-full px-5 py-4 border border-gray-300 rounded-3xl focus:outline-none focus:border-[#006633]">
           </div>
           <div>
             <label class="block text-sm font-medium mb-2">Carrera</label>
-            <input type="text" value="Ingeniería en Sistemas" class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#006633]">
+            <input type="text" value="Ingeniería en Sistemas" class="w-full px-5 py-4 border border-gray-300 rounded-3xl focus:outline-none focus:border-[#006633]">
           </div>
           <div>
             <label class="block text-sm font-medium mb-2">Teléfono</label>
-            <input type="tel" value="0987654321" class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#006633]">
+            <input type="tel" value="0987654321" class="w-full px-5 py-4 border border-gray-300 rounded-3xl focus:outline-none focus:border-[#006633]">
           </div>
           <div>
             <label class="block text-sm font-medium mb-2">Correo Institucional</label>
-            <input type="email" value="estudiante@uleam.edu.ec" class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#006633]">
+            <input type="email" value="estudiante@uleam.edu.ec" class="w-full px-5 py-4 border border-gray-300 rounded-3xl focus:outline-none focus:border-[#006633]">
           </div>
         </div>
 
-        <button onclick="guardarPerfil()" 
-                class="mt-10 w-full bg-[#006633] hover:bg-[#005522] text-white py-4 rounded-2xl font-semibold text-lg transition">
+        <button onclick="guardarPerfil()" class="mt-10 w-full bg-[#006633] hover:bg-[#005522] text-white py-4 rounded-3xl font-semibold text-lg transition">
           Guardar Cambios
         </button>
       </div>
@@ -74,11 +69,8 @@
     function guardarPerfil() {
       alert("✅ Perfil actualizado correctamente.");
     }
-
     function cerrarSesion() {
-      if (confirm("¿Estás seguro de que deseas cerrar sesión?")) {
-        window.location.href = "index.html";
-      }
+      if (confirm("¿Cerrar sesión?")) window.location.href = "index.html";
     }
   </script>
 </body>
