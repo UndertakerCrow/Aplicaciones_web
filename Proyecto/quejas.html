@@ -4,71 +4,141 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quejas y Reclamos - Biblioteca ULEAM</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <style>
-    body { background: linear-gradient(to bottom, #f8fafc, #e2e8f0); }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom, #f8fafc, #e2e8f0);
+      min-height: 100vh;
+    }
+    .sidebar {
+      width: 280px;
+      background: #006633;
+      color: white;
+      height: 100vh;
+      position: fixed;
+      box-shadow: 4px 0 15px rgba(0,0,0,0.2);
+    }
+    .sidebar-header {
+      padding: 25px;
+      background: #005522;
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+    .nav a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 25px;
+      color: white;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    .nav a:hover, .nav a.active {
+      background: rgba(255,255,255,0.15);
+    }
+    .main {
+      margin-left: 280px;
+      padding: 30px;
+    }
+    .header {
+      background: white;
+      padding: 20px 30px;
+      border-radius: 16px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+      margin-bottom: 30px;
+    }
+    .form-container {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+      max-width: 700px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 16px;
+      border: 2px solid #ddd;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      font-size: 1.05rem;
+    }
+    textarea {
+      min-height: 180px;
+      resize: vertical;
+    }
+    button {
+      background: #C8102E;
+      color: white;
+      border: none;
+      padding: 16px 32px;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+    }
   </style>
 </head>
-<body class="bg-gray-100">
-  <div class="flex h-screen">
-    <div class="w-72 bg-[#006633] text-white flex flex-col shadow-2xl">
-      <div class="p-6 border-b border-green-700 bg-[#005522]">
-        <h1 class="text-2xl font-bold flex items-center gap-3"><span class="text-3xl">📚</span> Biblioteca ULEAM</h1>
-      </div>
-      <nav class="p-4 flex-1 space-y-1">
-        <a href="dashboard-estudiante.html" class="sidebar-link flex items-center gap-3 px-4 py-3 hover:bg-green-700 rounded-2xl"><i class="fas fa-home"></i> Inicio</a>
-        <a href="catalogo.html" class="sidebar-link flex items-center gap-3 px-4 py-3 hover:bg-green-700 rounded-2xl"><i class="fas fa-book"></i> Catálogo</a>
-        <a href="mis-prestamos.html" class="sidebar-link flex items-center gap-3 px-4 py-3 hover:bg-green-700 rounded-2xl"><i class="fas fa-hand-holding"></i> Mis Préstamos</a>
-        <a href="quejas.html" class="sidebar-link flex items-center gap-3 px-4 py-3 bg-green-700 rounded-2xl"><i class="fas fa-exclamation-triangle"></i> Quejas</a>
-        <a href="perfil.html" class="sidebar-link flex items-center gap-3 px-4 py-3 hover:bg-green-700 rounded-2xl"><i class="fas fa-user"></i> Mi Perfil</a>
-      </nav>
-      <div class="p-4 border-t border-green-700 mt-auto">
-        <button onclick="cerrarSesion()" class="w-full flex items-center justify-center gap-3 px-4 py-3 hover:bg-red-700 rounded-2xl text-white transition">
-          <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
-        </button>
-      </div>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-header">📚 Biblioteca ULEAM</div>
+    <div class="nav">
+      <a href="dashboard-estudiante.html">🏠 Inicio</a>
+      <a href="catalogo.html">📖 Catálogo</a>
+      <a href="mis-prestamos.html">📚 Mis Préstamos</a>
+      <a href="quejas.html" class="active">⚠️ Quejas</a>
+      <a href="perfil.html">👤 Mi Perfil</a>
+    </div>
+    <div style="padding:20px; margin-top:auto;">
+      <button onclick="cerrarSesion()" style="width:100%; background:#C8102E; color:white;">Cerrar Sesión</button>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main">
+    <div class="header">
+      <h2 style="font-size: 2rem;">Quejas y Reclamos</h2>
     </div>
 
-    <div class="flex-1 p-8 overflow-auto">
-      <h2 class="text-3xl font-semibold mb-8">Quejas y Reclamos</h2>
-      <div class="max-w-2xl mx-auto bg-white rounded-3xl shadow-xl p-10">
-        <div class="space-y-6">
-          <div>
-            <label class="block text-sm font-medium mb-2">Tipo de Queja</label>
-            <select id="tipoQueja" class="w-full px-5 py-4 border border-gray-300 rounded-3xl focus:outline-none focus:border-[#006633]">
-              <option value="">Seleccione...</option>
-              <option>Libro dañado o deteriorado</option>
-              <option>Préstamo con error</option>
-              <option>Demora en atención</option>
-              <option>Otro</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-sm font-medium mb-2">Libro Relacionado (Opcional)</label>
-            <input id="libroQueja" type="text" class="w-full px-5 py-4 border border-gray-300 rounded-3xl focus:outline-none focus:border-[#006633]" placeholder="Ej: Cien Años de Soledad">
-          </div>
-          <div>
-            <label class="block text-sm font-medium mb-2">Descripción del Problema</label>
-            <textarea id="descripcion" rows="6" class="w-full px-5 py-4 border border-gray-300 rounded-3xl focus:outline-none focus:border-[#006633]" placeholder="Describe detalladamente..."></textarea>
-          </div>
-          <button onclick="enviarQueja()" class="w-full bg-[#C8102E] hover:bg-red-700 text-white py-4 rounded-3xl font-semibold text-lg transition">
-            Enviar Queja
-          </button>
-        </div>
-      </div>
+    <div class="form-container">
+      <h3 style="margin-bottom:25px;">Registrar Nueva Queja</h3>
+      
+      <select id="tipoQueja">
+        <option value="">Seleccione el tipo de queja...</option>
+        <option>Libro dañado o deteriorado</option>
+        <option>Préstamo no registrado correctamente</option>
+        <option>Demora en devolución</option>
+        <option>Atención deficiente</option>
+        <option>Otro</option>
+      </select>
+
+      <input type="text" id="libroQueja" placeholder="Libro relacionado (opcional)">
+
+      <textarea id="descripcion" placeholder="Describe detalladamente tu queja o reclamo..."></textarea>
+
+      <button onclick="enviarQueja()">Enviar Queja / Reclamo</button>
     </div>
   </div>
 
   <script>
     function enviarQueja() {
-      if (!document.getElementById('tipoQueja').value || !document.getElementById('descripcion').value.trim()) {
-        alert("Por favor completa todos los campos obligatorios.");
+      const tipo = document.getElementById('tipoQueja').value;
+      const desc = document.getElementById('descripcion').value.trim();
+
+      if (!tipo || !desc) {
+        alert("Por favor completa el tipo de queja y la descripción.");
         return;
       }
-      alert("✅ Queja enviada correctamente. Soporte Técnico la revisará pronto.");
+
+      alert("✅ Queja enviada correctamente.\n\nSoporte Técnico la revisará lo antes posible.");
+      
+      // Limpiar formulario
       document.getElementById('descripcion').value = '';
+      document.getElementById('libroQueja').value = '';
     }
+
     function cerrarSesion() {
       if (confirm("¿Cerrar sesión?")) window.location.href = "index.html";
     }

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Usuarios - Admin ULEAM</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(to bottom, #f8fafc, #e2e8f0); }
+    .sidebar { width: 280px; background: #006633; color: white; height: 100vh; position: fixed; }
+    .main { margin-left: 280px; padding: 30px; }
+    table { width: 100%; border-collapse: collapse; background: white; border-radius: 16px; overflow: hidden; }
+    th, td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
+    th { background: #006633; color: white; }
+    .btn { padding: 8px 16px; border: none; border-radius: 8px; cursor: pointer; }
+    .btn-edit { background: #006633; color: white; }
+    .btn-delete { background: #C8102E; color: white; }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <div style="padding:25px; background:#005522; font-size:1.8rem; font-weight:bold;">⚙️ Admin ULEAM</div>
+    <div style="padding:20px;">
+      <a href="dashboard-admin.html" style="display:block; padding:12px; color:white; text-decoration:none;">🏠 Dashboard</a>
+      <a href="gestion-usuarios.html" style="display:block; padding:12px; background:rgba(255,255,255,0.2); color:white;">👥 Gestión de Usuarios</a>
+      <a href="catalogo-admin.html" style="display:block; padding:12px; color:white;">📖 Catálogo</a>
+      <a href="prestamos-admin.html" style="display:block; padding:12px; color:white;">📚 Préstamos</a>
+      <a href="sanciones.html" style="display:block; padding:12px; color:white;">⚠️ Sanciones</a>
+      <a href="reportes.html" style="display:block; padding:12px; color:white;">📊 Reportes</a>
+    </div>
+  </div>
+
+  <div class="main">
+    <h2>Gestión de Usuarios</h2>
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Correo</th>
+        <th>Rol</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+      <tr>
+        <td>1001</td>
+        <td>Juan Pérez</td>
+        <td>estudiante@uleam.edu.ec</td>
+        <td>Estudiante</td>
+        <td>Activo</td>
+        <td><button class="btn btn-edit">Editar</button> <button class="btn btn-delete">Bloquear</button></td>
+      </tr>
+      <tr>
+        <td>1002</td>
+        <td>María López</td>
+        <td>docente@uleam.edu.ec</td>
+        <td>Docente</td>
+        <td>Activo</td>
+        <td><button class="btn btn-edit">Editar</button> <button class="btn btn-delete">Bloquear</button></td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

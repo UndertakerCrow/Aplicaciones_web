@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Administrador - Biblioteca ULEAM</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom, #f8fafc, #e2e8f0);
+      min-height: 100vh;
+    }
+    .sidebar {
+      width: 280px;
+      background: #006633;
+      color: white;
+      height: 100vh;
+      position: fixed;
+      box-shadow: 4px 0 15px rgba(0,0,0,0.2);
+    }
+    .sidebar-header {
+      padding: 25px;
+      background: #005522;
+      font-size: 1.8rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .nav a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 25px;
+      color: white;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    .nav a:hover, .nav a.active {
+      background: rgba(255,255,255,0.15);
+    }
+    .main {
+      margin-left: 280px;
+      padding: 30px;
+    }
+    .header {
+      background: white;
+      padding: 20px 30px;
+      border-radius: 16px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+      transition: 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-8px);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 25px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      ⚙️ Admin ULEAM
+    </div>
+    <div class="nav">
+      <a href="dashboard-admin.html" class="active">🏠 Dashboard</a>
+      <a href="gestion-usuarios.html">👥 Gestión de Usuarios</a>
+      <a href="catalogo-admin.html">📖 Catálogo</a>
+      <a href="prestamos.html">📚 Préstamos</a>
+      <a href="sanciones.html">⚠️ Sanciones</a>
+      <a href="reportes.html">📊 Reportes</a>
+    </div>
+    <div style="padding:20px; margin-top:auto;">
+      <button onclick="cerrarSesion()" 
+              style="width:100%; background:#C8102E; color:white; padding:14px; border:none; border-radius:12px; font-weight:bold; cursor:pointer;">
+        Cerrar Sesión
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main">
+    <div class="header">
+      <h2 style="font-size: 2.2rem;">Panel de Administración</h2>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <span>Administrador</span>
+        <div style="width:50px; height:50px; background:#6b21a8; border-radius:50%; display:flex; align-items:center; justify-content:center; color:white; font-size:26px;">👨‍💼</div>
+      </div>
+    </div>
+
+    <!-- Estadísticas -->
+    <div class="grid">
+      <div class="card">
+        <h3 style="color:#666;">Total Usuarios</h3>
+        <p style="font-size:3.2rem; font-weight:bold; color:#006633;">1,847</p>
+      </div>
+      <div class="card">
+        <h3 style="color:#666;">Libros en Catálogo</h3>
+        <p style="font-size:3.2rem; font-weight:bold; color:#006633;">8,942</p>
+      </div>
+      <div class="card">
+        <h3 style="color:#666;">Préstamos Activos</h3>
+        <p style="font-size:3.2rem; font-weight:bold; color:#d97706;">387</p>
+      </div>
+      <div class="card">
+        <h3 style="color:#666;">Multas Pendientes</h3>
+        <p style="font-size:3.2rem; font-weight:bold; color:#c8102e;">24</p>
+      </div>
+    </div>
+
+    <!-- Acciones Rápidas -->
+    <h3 style="margin:40px 0 20px 10px;">Acciones Rápidas</h3>
+    <div class="grid">
+      <div class="card" onclick="alert('Gestión de Usuarios abierta')">
+        <h3>👥 Gestión de Usuarios</h3>
+        <p style="color:#555; margin-top:10px;">Registrar, editar y sancionar usuarios</p>
+      </div>
+      <div class="card" onclick="alert('Administración de Catálogo abierta')">
+        <h3>📖 Administrar Catálogo</h3>
+        <p style="color:#555; margin-top:10px;">Agregar, editar y eliminar libros</p>
+      </div>
+      <div class="card" onclick="alert('Reportes abiertos')">
+        <h3>📊 Reportes y Estadísticas</h3>
+        <p style="color:#555; margin-top:10px;">Generar reportes del sistema</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function cerrarSesion() {
+      if (confirm("¿Estás seguro de que deseas cerrar sesión?")) {
+        window.location.href = "index.html";
+      }
+    }
+  </script>
+</body>
+</html>

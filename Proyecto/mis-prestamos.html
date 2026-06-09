@@ -4,53 +4,94 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mis Préstamos - Biblioteca ULEAM</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <style>
-    body { background: linear-gradient(to bottom, #f8fafc, #e2e8f0); }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom, #f8fafc, #e2e8f0);
+      min-height: 100vh;
+    }
+    .sidebar {
+      width: 280px;
+      background: #006633;
+      color: white;
+      height: 100vh;
+      position: fixed;
+      box-shadow: 4px 0 15px rgba(0,0,0,0.2);
+    }
+    .sidebar-header {
+      padding: 25px;
+      background: #005522;
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+    .nav a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 25px;
+      color: white;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    .nav a:hover, .nav a.active {
+      background: rgba(255,255,255,0.15);
+    }
+    .main {
+      margin-left: 280px;
+      padding: 30px;
+    }
+    .header {
+      background: white;
+      padding: 20px 30px;
+      border-radius: 16px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+      margin-bottom: 30px;
+    }
     .prestamo-card {
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      background: white;
+      border-radius: 20px;
+      padding: 25px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+      transition: 0.3s;
     }
     .prestamo-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+      transform: translateY(-5px);
+    }
+    button {
+      background: #C8102E;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
     }
   </style>
 </head>
-<body class="bg-gray-100">
-  <div class="flex h-screen">
-    <!-- Sidebar -->
-    <div class="w-72 bg-[#006633] text-white flex flex-col shadow-2xl">
-      <div class="p-6 border-b border-green-700 bg-[#005522]">
-        <h1 class="text-2xl font-bold flex items-center gap-3">
-          <span class="text-3xl">📚</span> Biblioteca ULEAM
-        </h1>
-      </div>
-      <nav class="p-4 flex-1 space-y-1">
-        <a href="dashboard-estudiante.html" class="flex items-center gap-3 px-4 py-3 hover:bg-green-700 rounded-2xl"><i class="fas fa-home"></i> Inicio</a>
-        <a href="catalogo.html" class="flex items-center gap-3 px-4 py-3 hover:bg-green-700 rounded-2xl"><i class="fas fa-book"></i> Catálogo</a>
-        <a href="mis-prestamos.html" class="flex items-center gap-3 px-4 py-3 bg-green-700 rounded-2xl"><i class="fas fa-hand-holding"></i> Mis Préstamos</a>
-        <a href="quejas.html" class="flex items-center gap-3 px-4 py-3 hover:bg-green-700 rounded-2xl"><i class="fas fa-exclamation-triangle"></i> Quejas</a>
-        <a href="perfil.html" class="flex items-center gap-3 px-4 py-3 hover:bg-green-700 rounded-2xl"><i class="fas fa-user"></i> Mi Perfil</a>
-      </nav>
-      <div class="p-4 border-t border-green-700 mt-auto">
-        <button onclick="cerrarSesion()" 
-                class="w-full flex items-center justify-center gap-3 px-4 py-3 hover:bg-red-700 rounded-2xl text-white transition">
-          <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
-        </button>
-      </div>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-header">📚 Biblioteca ULEAM</div>
+    <div class="nav">
+      <a href="dashboard-estudiante.html">🏠 Inicio</a>
+      <a href="catalogo.html">📖 Catálogo</a>
+      <a href="mis-prestamos.html" class="active">📚 Mis Préstamos</a>
+      <a href="quejas.html">⚠️ Quejas</a>
+      <a href="perfil.html">👤 Mi Perfil</a>
+    </div>
+    <div style="padding:20px; margin-top:auto;">
+      <button onclick="cerrarSesion()" style="width:100%; background:#C8102E;">Cerrar Sesión</button>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main">
+    <div class="header">
+      <h2 style="font-size: 2rem;">Mis Préstamos</h2>
     </div>
 
-    <!-- Main Content -->
-    <div class="flex-1 overflow-auto">
-      <header class="bg-white shadow-sm border-b p-6">
-        <h2 class="text-3xl font-semibold text-gray-800">Mis Préstamos</h2>
-      </header>
-
-      <div class="p-8 space-y-8" id="listaPrestamos">
-        <!-- Tarjetas con más espacio -->
-      </div>
-    </div>
+    <div id="listaPrestamos"></div>
   </div>
 
   <script>
@@ -58,61 +99,61 @@
       {
         titulo: "Cien Años de Soledad",
         autor: "Gabriel García Márquez",
-        fechaP: "28/04/2026",
-        fechaD: "12/05/2026",
+        fechaPrestamo: "28/04/2026",
+        fechaDevolucion: "12/05/2026",
         estado: "Activo"
       },
       {
         titulo: "1984",
         autor: "George Orwell",
-        fechaP: "25/04/2026",
-        fechaD: "09/05/2026",
+        fechaPrestamo: "25/04/2026",
+        fechaDevolucion: "09/05/2026",
         estado: "Activo"
       }
     ];
 
     function renderPrestamos() {
       const container = document.getElementById('listaPrestamos');
-      container.innerHTML = prestamos.map((p, i) => `
-        <div class="prestamo-card bg-white rounded-3xl shadow p-8">
-          <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div class="flex-1">
-              <h4 class="text-2xl font-semibold text-gray-800">${p.titulo}</h4>
-              <p class="text-gray-600 mt-1">${p.autor}</p>
-              <div class="mt-4 text-sm text-gray-500">
-                Prestado: <span class="font-medium">${p.fechaP}</span> — 
-                Devolución: <span class="font-medium text-red-600">${p.fechaD}</span>
-              </div>
+      container.innerHTML = '';
+
+      prestamos.forEach((p, index) => {
+        const div = document.createElement('div');
+        div.className = 'prestamo-card';
+        div.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:start;">
+            <div>
+              <h3 style="margin-bottom:8px;">${p.titulo}</h3>
+              <p style="color:#555;">${p.autor}</p>
+              <p style="margin-top:15px; color:#666; font-size:0.95rem;">
+                Prestado: ${p.fechaPrestamo}<br>
+                Devolución: <strong style="color:#C8102E;">${p.fechaDevolucion}</strong>
+              </p>
             </div>
-            
-            <div class="flex flex-col items-end gap-4">
-              <span class="px-6 py-2 bg-green-100 text-green-700 font-medium rounded-full">
+            <div style="text-align:right;">
+              <span style="background:#d1fae5; color:#10b981; padding:6px 16px; border-radius:20px; font-size:0.9rem;">
                 ${p.estado}
               </span>
-              <button onclick="devolverLibro(${i})" 
-                      class="flex items-center gap-2 text-red-600 hover:text-red-700 font-medium transition">
-                <i class="fas fa-undo"></i> 
-                Marcar como Devuelto
-              </button>
+              <br><br>
+              <button onclick="devolverLibro(${index})">Marcar como Devuelto</button>
             </div>
           </div>
-        </div>
-      `).join('');
+        `;
+        container.appendChild(div);
+      });
     }
 
-    function devolverLibro(i) {
+    function devolverLibro(index) {
       if (confirm("¿Marcar este libro como devuelto?")) {
-        prestamos.splice(i, 1);
+        prestamos.splice(index, 1);
         renderPrestamos();
       }
     }
 
     function cerrarSesion() {
-      if (confirm("¿Estás seguro de que deseas cerrar sesión?")) {
-        window.location.href = "index.html";
-      }
+      if (confirm("¿Cerrar sesión?")) window.location.href = "index.html";
     }
 
+    // Inicializar
     renderPrestamos();
   </script>
 </body>

@@ -3,40 +3,84 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Biblioteca Inteligente ULEAM</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <title>Iniciar Sesión - Biblioteca ULEAM</title>
   <style>
-    body { background: linear-gradient(135deg, #006633 0%, #003087 100%); }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #006633, #003087);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+      width: 100%;
+      max-width: 420px;
+      overflow: hidden;
+    }
+    .header {
+      background: linear-gradient(to right, #006633, #005522);
+      color: white;
+      padding: 40px 30px;
+      text-align: center;
+    }
+    .header h1 { font-size: 2.3rem; margin-bottom: 8px; }
+    .body {
+      padding: 40px 35px;
+    }
+    input {
+      width: 100%;
+      padding: 16px 20px;
+      border: 2px solid #ddd;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+      transition: 0.3s;
+    }
+    input:focus {
+      outline: none;
+      border-color: #006633;
+      box-shadow: 0 0 0 4px rgba(0,102,51,0.1);
+    }
+    button {
+      width: 100%;
+      padding: 16px;
+      background: #006633;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #005522;
+    }
   </style>
 </head>
-<body class="min-h-screen flex items-center justify-center">
-  <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md p-10">
-    <div class="text-center mb-8">
-      <h1 class="text-3xl font-bold text-[#006633]">Biblioteca Inteligente</h1>
-      <p class="text-gray-600">Universidad Laica Eloy Alfaro de Manabí</p>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Biblioteca ULEAM</h1>
+      <p>Universidad Laica Eloy Alfaro de Manabí</p>
     </div>
-
-    <h2 class="text-2xl font-semibold text-center mb-8">Iniciar Sesión</h2>
-
-    <div class="space-y-6">
-      <input id="email" type="email" class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#006633]" 
-             placeholder="usuario@uleam.edu.ec" value="estudiante@uleam.edu.ec">
+    <div class="body">
+      <h2 style="text-align:center; margin-bottom:25px; color:#1f2937;">Iniciar Sesión</h2>
       
-      <input id="password" type="password" class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#006633]" 
-             placeholder="Contraseña" value="123456">
-
-      <button onclick="login()" 
-              class="w-full bg-[#006633] hover:bg-[#005522] text-white py-4 rounded-2xl font-semibold text-lg transition">
-        Iniciar Sesión
-      </button>
+      <input type="email" id="email" placeholder="Correo institucional" value="estudiante@uleam.edu.ec">
+      <input type="password" id="password" placeholder="Contraseña" value="123456">
+      
+      <button onclick="login()">Iniciar Sesión</button>
     </div>
   </div>
 
   <script>
     function login() {
       const email = document.getElementById('email').value.toLowerCase();
-      
       if (email.includes("admin")) {
         window.location.href = "dashboard-admin.html";
       } else {

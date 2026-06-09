@@ -1,0 +1,74 @@
+Cien Años de Soledad|Gabriel García Márquez|1967|Literatura Latinoamericana
+El Amor en los Tiempos del Cólera|Gabriel García Márquez|1985|Romance
+Crónica de una Muerte Anunciada|Gabriel García Márquez|1981|Novela
+1984|George Orwell|1949|Distopía
+Rebelión en la Granja|George Orwell|1945|Política
+El Principito|Antoine de Saint-Exupéry|1943|Literatura Infantil
+Rayuela|Julio Cortázar|1963|Literatura Experimental
+Don Quijote de la Mancha|Miguel de Cervantes|1605|Clásico Español
+La Casa de los Espíritus|Isabel Allende|1982|Realismo Mágico
+Ficciones|Jorge Luis Borges|1944|Literatura Fantástica
+El Laberinto de la Soledad|Octavio Paz|1950|Ensayo
+Cien Sonetos de Amor|Pablo Neruda|1959|Poesía
+La Ciudad y los Perros|Mario Vargas Llosa|1963|Literatura Peruana
+El Nombre de la Rosa|Umberto Eco|1980|Novela Histórica
+El Alquimista|Paulo Coelho|1988|Ficción Espiritual
+La Sombra del Viento|Carlos Ruiz Zafón|2001|Misterio
+Harry Potter y la Piedra Filosofal|J.K. Rowling|1997|Literatura Juvenil
+El Señor de los Anillos: La Comunidad del Anillo|J.R.R. Tolkien|1954|Fantasia
+Dune|Frank Herbert|1965|Ciencia Ficción
+Neuromante|William Gibson|1984|Cyberpunk
+Fundación|Isaac Asimov|1951|Ciencia Ficción
+El Problema de los Tres Cuerpos|Liu Cixin|2008|Ciencia Ficción
+Sapiens: De Animales a Dioses|Yuval Noah Harari|2011|Historia
+El Poder del Ahora|Eckhart Tolle|1997|Espiritualidad
+Cómo Ganar Amigos e Influir sobre las Personas|Dale Carnegie|1936|Autoayuda
+Padre Rico, Padre Pobre|Robert Kiyosaki|1997|Finanzas
+El Arte de la Guerra|Sun Tzu|-500|Estrategia
+Pensar Rápido, Pensar Despacio|Daniel Kahneman|2011|Psicología
+El Hombre en Busca de Sentido|Viktor Frankl|1946|Psicología
+Crimen y Castigo|Fiódor Dostoyevski|1866|Clásico Ruso
+Ana Karenina|León Tolstói|1877|Clásico Ruso
+Orgullo y Prejuicio|Jane Austen|1813|Romance Clásico
+Matar a un Ruiseñor|Harper Lee|1960|Literatura Americana
+El Gran Gatsby|F. Scott Fitzgerald|1925|Clásico Americano
+Fahrenheit 451|Ray Bradbury|1953|Distopía
+Un Mundo Feliz|Aldous Huxley|1932|Distopía
+La Metamorfosis|Franz Kafka|1915|Existencialismo
+El Extranjero|Albert Camus|1942|Existencialismo
+El Viejo y el Mar|Ernest Hemingway|1952|Literatura Americana
+Cien Años de Soledad|Gabriel García Márquez|1967|Literatura Latinoamericana
+El Túnel|Ernesto Sábato|1948|Existencialismo
+Pedro Páramo|Juan Rulfo|1955|Realismo Mágico
+La Vorágine|José Eustasio Rivera|1924|Literatura Colombiana
+María|Jorge Isaacs|1867|Romance
+La Tregua|Mario Benedetti|1960|Romance
+Gracias por el Fuego|Mario Benedetti|1965|Novela
+El Túnel|Ernesto Sábato|1948|Existencialismo
+Sobre Héroes y Tumbas|Ernesto Sábato|1961|Novela
+El Código Da Vinci|Dan Brown|2003|Misterio
+Ángeles y Demonios|Dan Brown|2000|Misterio
+La Chica del Tren|Paula Hawkins|2015|Suspense
+El Silencio de los Inocentes|Thomas Harris|1988|Suspense
+It|Stephen King|1986|Terror
+El Resplandor|Stephen King|1977|Terror
+Carrie|Stephen King|1974|Terror
+Moby Dick|Herman Melville|1851|Clásico
+Frankenstein|Mary Shelley|1818|Ciencia Ficción
+Drácula|Bram Stoker|1897|Terror
+El Retrato de Dorian Gray|Oscar Wilde|1890|Clásico
+El Proceso|Franz Kafka|1925|Existencialismo
+El Castillo|Franz Kafka|1926|Existencialismo
+Madame Bovary|Gustave Flaubert|1857|Clásico
+Los Miserables|Victor Hugo|1862|Clásico
+El Conde de Montecristo|Alexandre Dumas|1844|Aventura
+Los Tres Mosqueteros|Alexandre Dumas|1844|Aventura
+La Divina Comedia|Dante Alighieri|1320|Poesía Épica
+Hamlet|William Shakespeare|1603|Drama
+Romeo y Julieta|William Shakespeare|1597|Romance
+Macbeth|William Shakespeare|1606|Drama
+Otelo|William Shakespeare|1603|Drama
+El Lobo Estepario|Hermann Hesse|1927|Existencialismo
+Siddhartha|Hermann Hesse|1922|Espiritualidad
+Demian|Hermann Hesse|1919|Novela
+# Total: Más de 100 libros listos para usar

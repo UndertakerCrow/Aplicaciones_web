@@ -4,87 +4,173 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Catálogo - Biblioteca ULEAM</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <style>
-    body { background: linear-gradient(to bottom, #f8fafc, #e2e8f0); }
-    .card-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-    .card-hover:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1); }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom, #f8fafc, #e2e8f0);
+      min-height: 100vh;
+    }
+    .sidebar {
+      width: 280px;
+      background: #006633;
+      color: white;
+      height: 100vh;
+      position: fixed;
+      box-shadow: 4px 0 15px rgba(0,0,0,0.2);
+    }
+    .sidebar-header {
+      padding: 25px;
+      background: #005522;
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+    .nav a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 25px;
+      color: white;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    .nav a:hover, .nav a.active {
+      background: rgba(255,255,255,0.15);
+    }
+    .main {
+      margin-left: 280px;
+      padding: 30px;
+    }
+    .header {
+      background: white;
+      padding: 20px 30px;
+      border-radius: 16px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+      margin-bottom: 30px;
+    }
+    .search-box {
+      width: 100%;
+      padding: 16px 20px;
+      border: 2px solid #ddd;
+      border-radius: 16px;
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 25px;
+    }
+    .book-card {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+      transition: 0.3s;
+    }
+    .book-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 30px rgba(0,0,0,0.12);
+    }
+    .book-cover {
+      height: 220px;
+      background: linear-gradient(#e5e7eb, #cbd5e1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 70px;
+    }
+    button {
+      background: #006633;
+      color: white;
+      border: none;
+      padding: 12px;
+      width: 100%;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 600;
+    }
   </style>
 </head>
-<body class="bg-gray-100">
-  <div class="flex h-screen">
-    <div class="w-72 bg-[#006633] text-white flex flex-col shadow-2xl">
-      <div class="p-6 border-b border-green-700 bg-[#005522]">
-        <h1 class="text-2xl font-bold flex items-center gap-3">
-          <span class="text-3xl">📚</span> Biblioteca ULEAM
-        </h1>
-      </div>
-      <nav class="p-4 flex-1 space-y-1">
-        <a href="dashboard-estudiante.html" class="sidebar-link flex items-center gap-3 px-4 py-3 hover:bg-green-700 rounded-2xl"><i class="fas fa-home"></i> Inicio</a>
-        <a href="catalogo.html" class="sidebar-link flex items-center gap-3 px-4 py-3 bg-green-700 rounded-2xl"><i class="fas fa-book"></i> Catálogo</a>
-        <a href="mis-prestamos.html" class="sidebar-link flex items-center gap-3 px-4 py-3 hover:bg-green-700 rounded-2xl"><i class="fas fa-hand-holding"></i> Mis Préstamos</a>
-        <a href="quejas.html" class="sidebar-link flex items-center gap-3 px-4 py-3 hover:bg-green-700 rounded-2xl"><i class="fas fa-exclamation-triangle"></i> Quejas</a>
-        <a href="perfil.html" class="sidebar-link flex items-center gap-3 px-4 py-3 hover:bg-green-700 rounded-2xl"><i class="fas fa-user"></i> Mi Perfil</a>
-      </nav>
-      <div class="p-4 border-t border-green-700 mt-auto">
-        <button onclick="cerrarSesion()" class="w-full flex items-center justify-center gap-3 px-4 py-3 hover:bg-red-700 rounded-2xl text-white transition">
-          <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
-        </button>
-      </div>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-header">📚 Biblioteca ULEAM</div>
+    <div class="nav">
+      <a href="dashboard-estudiante.html">🏠 Inicio</a>
+      <a href="catalogo.html" class="active">📖 Catálogo</a>
+      <a href="mis-prestamos.html">📚 Mis Préstamos</a>
+      <a href="quejas.html">⚠️ Quejas</a>
+      <a href="perfil.html">👤 Mi Perfil</a>
     </div>
-
-    <div class="flex-1 overflow-auto">
-      <header class="bg-white shadow-sm border-b p-6">
-        <h2 class="text-3xl font-semibold text-gray-800">Catálogo de Libros</h2>
-      </header>
-
-      <div class="p-8">
-        <div class="flex gap-4 mb-8">
-          <input id="buscador" type="text" placeholder="Buscar por título, autor o año..." 
-                 class="flex-1 px-6 py-4 border border-gray-300 rounded-3xl focus:outline-none focus:border-[#006633] text-lg">
-        </div>
-
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="gridLibros"></div>
-      </div>
+    <div style="padding:20px; margin-top:auto;">
+      <button onclick="cerrarSesion()" style="width:100%; background:#C8102E; color:white;">Cerrar Sesión</button>
     </div>
   </div>
 
+  <!-- Main Content -->
+  <div class="main">
+    <div class="header">
+      <h2 style="font-size: 2rem;">Catálogo de Libros</h2>
+    </div>
+
+    <input type="text" id="buscador" class="search-box" placeholder="Buscar por título, autor o año...">
+
+    <div class="grid" id="gridLibros"></div>
+  </div>
+
   <script>
-    const librosCatalogo = [
+    const libros = [
       {titulo:"Cien Años de Soledad", autor:"Gabriel García Márquez", año:1967},
       {titulo:"1984", autor:"George Orwell", año:1949},
       {titulo:"El Principito", autor:"Antoine de Saint-Exupéry", año:1943},
       {titulo:"Rayuela", autor:"Julio Cortázar", año:1963},
-      {titulo:"Don Quijote", autor:"Miguel de Cervantes", año:1605},
-      {titulo:"Crónica de una muerte anunciada", autor:"Gabriel García Márquez", año:1981}
+      {titulo:"Don Quijote de la Mancha", autor:"Miguel de Cervantes", año:1605},
+      {titulo:"Crónica de una muerte anunciada", autor:"Gabriel García Márquez", año:1981},
+      {titulo:"La Casa de los Espíritus", autor:"Isabel Allende", año:1982},
+      {titulo:"Ficciones", autor:"Jorge Luis Borges", año:1944}
     ];
 
-    function renderCatalogo(filtro = '') {
+    function renderLibros(filtro = '') {
       const container = document.getElementById('gridLibros');
-      container.innerHTML = librosCatalogo.filter(l => 
-        l.titulo.toLowerCase().includes(filtro) || l.autor.toLowerCase().includes(filtro)
-      ).map(l => `
-        <div class="card-hover bg-white rounded-3xl overflow-hidden shadow">
-          <div class="h-56 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center text-7xl">📖</div>
-          <div class="p-5">
-            <h4 class="font-semibold text-lg">${l.titulo}</h4>
-            <p class="text-gray-500 text-sm">${l.autor} (${l.año})</p>
-            <button onclick="alert('Préstamo solicitado: ${l.titulo} (14 días)')" 
-                    class="mt-5 w-full bg-[#006633] hover:bg-[#005522] text-white py-3 rounded-2xl font-medium">
-              Solicitar Préstamo
-            </button>
+      container.innerHTML = '';
+
+      const filtrados = libros.filter(l => 
+        l.titulo.toLowerCase().includes(filtro) || 
+        l.autor.toLowerCase().includes(filtro)
+      );
+
+      filtrados.forEach(l => {
+        const div = document.createElement('div');
+        div.className = 'book-card';
+        div.innerHTML = `
+          <div class="book-cover">📖</div>
+          <div style="padding:20px;">
+            <h4 style="margin-bottom:8px;">${l.titulo}</h4>
+            <p style="color:#666; font-size:0.95rem;">${l.autor}</p>
+            <p style="color:#888; font-size:0.85rem; margin-top:8px;">${l.año}</p>
+            <button onclick="solicitar('${l.titulo}')" style="margin-top:15px;">Solicitar Préstamo</button>
           </div>
-        </div>
-      `).join('');
+        `;
+        container.appendChild(div);
+      });
     }
 
-    document.getElementById('buscador').addEventListener('input', (e) => renderCatalogo(e.target.value.toLowerCase()));
-    renderCatalogo();
+    function solicitar(titulo) {
+      alert(`✅ Préstamo solicitado: ${titulo}\n\nPeríodo máximo: 14 días`);
+    }
 
     function cerrarSesion() {
-      if (confirm("¿Estás seguro de que deseas cerrar sesión?")) window.location.href = "index.html";
+      if (confirm("¿Cerrar sesión?")) window.location.href = "index.html";
     }
+
+    // Buscador en tiempo real
+    document.getElementById('buscador').addEventListener('input', (e) => {
+      renderLibros(e.target.value.toLowerCase());
+    });
+
+    // Inicializar
+    renderLibros();
   </script>
 </body>
 </html>

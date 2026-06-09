@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sanciones - Admin ULEAM</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom, #f8fafc, #e2e8f0);
+      min-height: 100vh;
+    }
+    .sidebar {
+      width: 280px;
+      background: #006633;
+      color: white;
+      height: 100vh;
+      position: fixed;
+      box-shadow: 4px 0 15px rgba(0,0,0,0.2);
+    }
+    .sidebar-header {
+      padding: 25px;
+      background: #005522;
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+    .nav a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 25px;
+      color: white;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    .nav a:hover, .nav a.active {
+      background: rgba(255,255,255,0.15);
+    }
+    .main {
+      margin-left: 280px;
+      padding: 30px;
+    }
+    .header {
+      background: white;
+      padding: 20px 30px;
+      border-radius: 16px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+      margin-bottom: 30px;
+    }
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 16px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+    th { background: #006633; color: white; }
+    .btn-sancion {
+      background: #C8102E;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-header">⚙️ Admin ULEAM</div>
+    <div class="nav">
+      <a href="dashboard-admin.html">🏠 Dashboard</a>
+      <a href="gestion-usuarios.html">👥 Gestión de Usuarios</a>
+      <a href="catalogo-admin.html">📖 Catálogo</a>
+      <a href="prestamos-admin.html">📚 Préstamos</a>
+      <a href="sanciones.html" class="active">⚠️ Sanciones</a>
+      <a href="reportes.html">📊 Reportes</a>
+    </div>
+    <div style="padding:20px; margin-top:auto;">
+      <button onclick="cerrarSesion()" style="width:100%; background:#C8102E; color:white; padding:14px; border:none; border-radius:12px;">Cerrar Sesión</button>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main">
+    <div class="header">
+      <h2 style="font-size: 2rem;">Gestión de Sanciones</h2>
+    </div>
+
+    <div class="card">
+      <h3>Aplicar Sanción</h3>
+      <p style="margin:15px 0; color:#555;">Selecciona un usuario y aplica una sanción</p>
+      
+      <select style="width:100%; padding:14px; border-radius:12px; margin-bottom:20px;">
+        <option>Juan Pérez López - estudiante@uleam.edu.ec</option>
+        <option>María González - mgonzalez@uleam.edu.ec</option>
+        <option>Carlos Mendoza - cmendoza@uleam.edu.ec</option>
+      </select>
+
+      <select style="width:100%; padding:14px; border-radius:12px; margin-bottom:20px;">
+        <option value="">Tipo de Sanción...</option>
+        <option>Suspensión temporal (7 días)</option>
+        <option>Suspensión temporal (15 días)</option>
+        <option>Multa económica</option>
+        <option>Bloqueo definitivo</option>
+      </select>
+
+      <textarea style="width:100%; height:120px; padding:14px; border-radius:12px; margin-bottom:20px;" placeholder="Motivo de la sanción..."></textarea>
+
+      <button onclick="aplicarSancion()" style="background:#C8102E; color:white; width:100%; padding:16px; border-radius:12px; font-size:1.1rem;">Aplicar Sanción</button>
+    </div>
+
+    <h3 style="margin:40px 0 20px;">Sanciones Activas</h3>
+    <table>
+      <tr>
+        <th>Usuario</th>
+        <th>Tipo de Sanción</th>
+        <th>Fecha</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+      <tr>
+        <td>Carlos Mendoza</td>
+        <td>Suspensión temporal (7 días)</td>
+        <td>03/05/2026</td>
+        <td><span style="color:#f59e0b;">Activa</span></td>
+        <td><button class="btn-sancion" onclick="levantarSancion(this)">Levantar</button></td>
+      </tr>
+    </table>
+  </div>
+
+  <script>
+    function aplicarSancion() {
+      alert("✅ Sanción aplicada correctamente.");
+    }
+
+    function levantarSancion(btn) {
+      if (confirm("¿Levantar esta sanción?")) {
+        btn.innerHTML = "Levantada";
+        btn.disabled = true;
+        btn.style.background = "#10b981";
+      }
+    }
+
+    function cerrarSesion() {
+      if (confirm("¿Cerrar sesión?")) window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>
