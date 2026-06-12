@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registro de Estudiantes</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Registro de Estudiantes</h1>
+  </header>
+  <main>
+    <section class="panel">
+      <div class="panel-body">
+        <form id="studentForm" class="form-grid">
+          <label>Cédula
+            <input type="text" id="cedula" name="cedula" placeholder="1234567890" required />
+          </label>
+          <label>Apellidos
+            <input type="text" id="apellidos" name="apellidos" placeholder="Pérez" required />
+          </label>
+          <label>Nombres
+            <input type="text" id="nombres" name="nombres" placeholder="Juan Carlos" required />
+          </label>
+          <label>Dirección
+            <input type="text" id="direccion" name="direccion" placeholder="Av. Principal 123" required />
+          </label>
+          <label>Teléfono
+            <input type="text" id="telefono" name="telefono" placeholder="0991234567" required />
+          </label>
+          <label>Correo electrónico
+            <input type="email" id="correo" name="correo" placeholder="ejemplo@correo.com" required />
+          </label>
+          <label>Facultad
+            <input type="text" id="facultad" name="facultad" placeholder="Ingeniería" required />
+          </label>
+          <label>Nivel
+            <input type="text" id="nivel" name="nivel" placeholder="1" required />
+          </label>
+          <label>Paralelo
+            <input type="text" id="paralelo" name="paralelo" placeholder="A" required />
+          </label>
+          <button type="submit">Guardar Estudiante</button>
+        </form>
+        <div id="messages"></div>
+      </div>
+    </section>
+    <section id="studentList" class="panel" style="margin-top: 28px;">
+      <div class="panel-body">
+        <h2>Estudiantes registrados</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Cédula</th>
+              <th>Apellidos</th>
+              <th>Nombres</th>
+              <th>Facultad</th>
+              <th>Nivel</th>
+              <th>Paralelo</th>
+            </tr>
+          </thead>
+          <tbody id="studentTable"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
