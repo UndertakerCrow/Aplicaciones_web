@@ -1,22 +1,146 @@
 <script>
-  let libros = [
-    { titulo: "Cien Años de Soledad", autor: "Gabriel García Márquez", año: 1967, categoria: "Literatura Latinoamericana" },
-    { titulo: "El Amor en los Tiempos del Cólera", autor: "Gabriel García Márquez", año: 1985, categoria: "Romance" },
-    { titulo: "Crónica de una Muerte Anunciada", autor: "Gabriel García Márquez", año: 1981, categoria: "Novela" },
-    { titulo: "1984", autor: "George Orwell", año: 1949, categoria: "Distopía" },
-    { titulo: "Rebelión en la Granja", autor: "George Orwell", año: 1945, categoria: "Política" },
-    { titulo: "El Principito", autor: "Antoine de Saint-Exupéry", año: 1943, categoria: "Literatura Infantil" },
-    { titulo: "Rayuela", autor: "Julio Cortázar", año: 1963, categoria: "Literatura Experimental" },
-    { titulo: "Don Quijote de la Mancha", autor: "Miguel de Cervantes", año: 1605, categoria: "Clásico Español" },
-    { titulo: "La Casa de los Espíritus", autor: "Isabel Allende", año: 1982, categoria: "Realismo Mágico" },
-    { titulo: "Ficciones", autor: "Jorge Luis Borges", año: 1944, categoria: "Literatura Fantástica" },
-    // ... (más de 100 libros del archivo)
-    { titulo: "Siddhartha", autor: "Hermann Hesse", año: 1922, categoria: "Espiritualidad" },
-    { titulo: "Demian", autor: "Hermann Hesse", año: 1919, categoria: "Novela" }
-  ];
+  import { loggedUser, libros } from '$lib/store.js';
+  import { goto } from '$app/navigation';
 
-  function registrarNuevo() {
-    alert("✅ Nuevo libro registrado correctamente.");
+  let search = '';
+  let selectedCategory = '';
+  let showModal = false;
+  let isEditing = false;
+  let editingBookId = null;
+
+  // Campos del formulario modal
+  let bkTitulo = '';
+  let bkAutor = '';
+  let bkAnio = '';
+  let bkPaginas = '';
+  let bkCategoria = '';
+  let bkIsbn = '';
+  let bkStock = '';
+
+  // Toast
+  let toastMessage = '';
+  let toastType = 'success';
+  let toastVisible = false;
+
+  function triggerToast(msg, type = 'success') {
+    toastMessage = msg;
+    toastType = type;
+    toastVisible = true;
+    setTimeout(() => {
+      toastVisible = false;
+    }, 3500);
+  }
+
+  // Categorías únicas para filtro
+  $: categorias = [...new Set($libros.map(l => l.categoria))];
+
+  // Filtrado reactivo de libros
+  $: filteredBooks = $libros.filter(l => {
+    const matchesSearch =
+      (l.titulo || '').toLowerCase().includes(search.toLowerCase()) ||
+      (l.autor || '').toLowerCase().includes(search.toLowerCase()) ||
+      (l.isbn || '').includes(search);
+    const matchesCat = selectedCategory === '' || l.categoria === selectedCategory;
+    return matchesSearch && matchesCat;
+  });
+
+  function showAddBookModal() {
+    isEditing = false;
+    editingBookId = null;
+    bkTitulo = '';
+    bkAutor = '';
+    bkAnio = '';
+    bkPaginas = '';
+    bkCategoria = '';
+    bkIsbn = '';
+    bkStock = '';
+    showModal = true;
+  }
+
+  function showEditBookModal(libro) {
+    isEditing = true;
+    editingBookId = libro.id;
+    bkTitulo = libro.titulo;
+    bkAutor = libro.autor;
+    bkAnio = libro.anio;
+    bkPaginas = libro.paginas;
+    bkCategoria = libro.categoria;
+    bkIsbn = libro.isbn;
+    bkStock = libro.stock;
+    showModal = true;
+  }
+
+  function closeBookModal() {
+    showModal = false;
+  }
+
+  function saveBook() {
+    const anioVal = parseInt(bkAnio);
+    const paginasVal = parseInt(bkPaginas);
+    const stockVal = parseInt(bkStock);
+
+    if (!bkTitulo.trim() || !bkAutor.trim() || isNaN(anioVal) || isNaN(paginasVal) || !bkCategoria.trim() || !bkIsbn.trim() || isNaN(stockVal)) {
+      triggerToast("Por favor, llena correctamente todos los campos.", "warning");
+      return;
+    }
+
+    if (!isEditing) {
+      // Agregar libro
+      libros.update(list => {
+        const id = list.length > 0 ? Math.max(...list.map(l => l.id)) + 1 : 1;
+        const gradients = [
+          "linear-gradient(135deg, #3b82f6, #1d4ed8)",
+          "linear-gradient(135deg, #10b981, #047857)",
+          "linear-gradient(135deg, #8b5cf6, #6d28d9)",
+          "linear-gradient(135deg, #ec4899, #be185d)",
+          "linear-gradient(135deg, #f59e0b, #d97706)",
+          "linear-gradient(135deg, #14b8a6, #0f766e)"
+        ];
+        const color = gradients[Math.floor(Math.random() * gradients.length)];
+        list.push({
+          id,
+          titulo: bkTitulo.trim(),
+          autor: bkAutor.trim(),
+          anio: anioVal,
+          paginas: paginasVal,
+          categoria: bkCategoria.trim(),
+          isbn: bkIsbn.trim(),
+          stock: stockVal,
+          precio: 12.00,
+          color
+        });
+        return list;
+      });
+      triggerToast("¡Nuevo libro añadido al catálogo con éxito!", "success");
+    } else {
+      // Editar libro
+      libros.update(list => {
+        const idx = list.findIndex(l => l.id === editingBookId);
+        if (idx !== -1) {
+          list[idx] = {
+            ...list[idx],
+            titulo: bkTitulo.trim(),
+            autor: bkAutor.trim(),
+            anio: anioVal,
+            paginas: paginasVal,
+            categoria: bkCategoria.trim(),
+            isbn: bkIsbn.trim(),
+            stock: stockVal
+          };
+        }
+        return list;
+      });
+      triggerToast("¡Material bibliográfico actualizado!", "success");
+    }
+
+    closeBookModal();
+  }
+
+  function deleteBook(id) {
+    if (confirm("¿Estás seguro de que deseas eliminar permanentemente este libro del catálogo?")) {
+      libros.update(list => list.filter(l => l.id !== id));
+      triggerToast("El libro ha sido retirado del sistema.", "success");
+    }
   }
 </script>
 
@@ -24,81 +148,152 @@
   <title>Administrar Catálogo - Admin ULEAM</title>
 </svelte:head>
 
-<div class="app">
-  <aside class="sidebar">
-    <div class="logo">⚙️ Admin ULEAM</div>
-    <nav>
-      <a href="/admin">🏠 Dashboard</a>
-      <a href="/admin/gestion-usuarios">👥 Gestión de Usuarios</a>
-      <a href="/admin/catalogo" class="active">📖 Catálogo</a>
-      <a href="/admin/prestamos">📚 Préstamos</a>
-      <a href="/admin/sanciones">⚠️ Sanciones</a>
-      <a href="/admin/reportes">📊 Reportes</a>
-    </nav>
-    <button class="logout" on:click={() => window.location.href = '/'}>Cerrar Sesión</button>
-  </aside>
-
-  <main>
-    <header>
-      <h1>Administrar Catálogo</h1>
-    </header>
-
-    <div class="form-card">
-      <h3>Registrar Nuevo Libro</h3>
-      <input type="text" placeholder="Título del libro" />
-      <input type="text" placeholder="Autor" />
-      <input type="text" placeholder="ISBN" />
-      <input type="number" placeholder="Año de publicación" />
-      <select>
-        <option>Literatura</option>
-        <option>Ciencia</option>
-        <option>Historia</option>
-        <option>Tecnología</option>
-      </select>
-      <button on:click={registrarNuevo}>Registrar Libro</button>
+<!-- Header -->
+<div class="page-header">
+  <div class="page-title">
+    <h2>Administración de Catálogo</h2>
+    <p>Registra nuevos ejemplares físicos/digitales, modifica stock y elimina material dañado</p>
+  </div>
+  
+  {#if $loggedUser}
+    <div class="user-profile-badge" on:click={() => goto('/estudiante/perfil')}>
+      <div class="avatar-container">{($loggedUser.nombre || '').charAt(0)}</div>
+      <div class="user-meta">
+        <strong>{$loggedUser.nombre}</strong>
+        <span>{$loggedUser.rol}</span>
+      </div>
     </div>
+  {/if}
+</div>
 
-    <h3>Libros Registrados ({libros.length})</h3>
+<!-- Tabla Catálogo -->
+<div class="dashboard-card">
+  <div class="card-title-bar">
+    <h3>Material Bibliográfico</h3>
+    <button class="btn btn-primary" on:click={showAddBookModal}>➕ Agregar Material</button>
+  </div>
+
+  <div style="margin-bottom: 20px; display: flex; gap: 15px; flex-wrap: wrap;">
+    <div style="flex-grow: 1; min-width: 250px;">
+      <input type="text" bind:value={search} placeholder="Buscar por título, autor, categoría o ISBN...">
+    </div>
+    <div style="width: 220px;">
+      <select bind:value={selectedCategory}>
+        <option value="">Todas las categorías</option>
+        {#each categorias as cat}
+          <option value={cat}>{cat}</option>
+        {/each}
+      </select>
+    </div>
+  </div>
+
+  <div class="table-container">
     <table>
       <thead>
         <tr>
+          <th>Portada</th>
           <th>Título</th>
           <th>Autor</th>
-          <th>Año</th>
           <th>Categoría</th>
+          <th>ISBN</th>
+          <th>Stock</th>
           <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
-        {#each libros as libro}
+        {#each filteredBooks as l}
           <tr>
-            <td>{libro.titulo}</td>
-            <td>{libro.autor}</td>
-            <td>{libro.año}</td>
-            <td>{libro.categoria}</td>
             <td>
-              <button>Editar</button>
-              <button style="background:#C8102E;">Eliminar</button>
+              <div style="width: 45px; height: 60px; background: {l.color}; border-radius: 4px; display: flex; align-items: center; justify-content: center; padding: 4px; color: white; font-size: 0.5rem; text-align: center; font-weight: 700; box-shadow: var(--shadow-sm); overflow: hidden;">
+                {(l.titulo || '').substring(0, 10)}...
+              </div>
+            </td>
+            <td style="font-weight: 700;">{l.titulo}</td>
+            <td>{l.autor}</td>
+            <td><span class="badge badge-info" style="background: #e2e8f0; color: #475569;">{l.categoria}</span></td>
+            <td style="font-family: monospace; font-size: 0.85rem;">{l.isbn}</td>
+            <td>
+              <span class="stock-badge {l.stock > 0 ? 'available' : 'empty'}">
+                {l.stock > 0 ? `Stock: ${l.stock}` : 'Agotado'}
+              </span>
+            </td>
+            <td>
+              <div style="display: flex; gap: 8px;">
+                <button on:click={() => showEditBookModal(l)} class="btn btn-outline btn-sm">Editar</button>
+                <button on:click={() => deleteBook(l.id)} class="btn btn-danger btn-sm">Eliminar</button>
+              </div>
+            </td>
+          </tr>
+        {:else}
+          <tr>
+            <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 25px;">
+              No se encontraron materiales en el catálogo.
             </td>
           </tr>
         {/each}
       </tbody>
     </table>
-  </main>
+  </div>
 </div>
 
-<style>
-  /* Estilos iguales a los anteriores */
-  .app { display: flex; min-height: 100vh; }
-  .sidebar { width: 260px; background: #006633; color: white; padding: 20px; }
-  .logo { font-size: 1.8rem; font-weight: bold; margin-bottom: 30px; }
-  nav a { display: block; padding: 14px 20px; color: white; text-decoration: none; border-radius: 10px; margin-bottom: 6px; }
-  nav a.active, nav a:hover { background: rgba(255,255,255,0.2); }
-  .logout { margin-top: auto; width: 100%; padding: 12px; background: #C8102E; color: white; border: none; border-radius: 10px; cursor: pointer; }
-  main { flex: 1; padding: 30px; }
-  .form-card { background: white; padding: 25px; border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); margin-bottom: 30px; }
-  input, select { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; }
-  table { width: 100%; border-collapse: collapse; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
-  th, td { padding: 14px; border-bottom: 1px solid #eee; }
-  th { background: #006633; color: white; }
-</style>
+<!-- Modal Agregar/Editar Libro -->
+<div class="modal-overlay {showModal ? 'show' : ''}">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4>{isEditing ? `Editar Libro: ${bkTitulo}` : 'Agregar Nuevo Material'}</h4>
+      <button class="btn-close" on:click={closeBookModal}>&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="bkTitulo">Título del Libro</label>
+        <input type="text" id="bkTitulo" bind:value={bkTitulo} placeholder="Ej. El túnel">
+      </div>
+      <div class="form-group">
+        <label for="bkAutor">Autor</label>
+        <input type="text" id="bkAutor" bind:value={bkAutor} placeholder="Ej. Ernesto Sábato">
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <div class="form-group">
+          <label for="bkAnio">Año de Publicación</label>
+          <input type="number" id="bkAnio" bind:value={bkAnio} placeholder="Ej. 1948">
+        </div>
+        <div class="form-group">
+          <label for="bkPaginas">Páginas</label>
+          <input type="number" id="bkPaginas" bind:value={bkPaginas} placeholder="Ej. 160">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="bkCategoria">Categoría</label>
+        <input type="text" id="bkCategoria" bind:value={bkCategoria} placeholder="Ej. Novela Psicológica">
+      </div>
+      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 15px;">
+        <div class="form-group">
+          <label for="bkIsbn">Código ISBN</label>
+          <input type="text" id="bkIsbn" bind:value={bkIsbn} placeholder="Ej. 978-8420651361">
+        </div>
+        <div class="form-group">
+          <label for="bkStock">Stock Inicial</label>
+          <input type="number" id="bkStock" bind:value={bkStock} placeholder="Ej. 5">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" on:click={closeBookModal}>Cancelar</button>
+      <button class="btn btn-primary" on:click={saveBook}>Guardar Libro</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container">
+  {#if toastVisible}
+    <div class="toast {toastType} show">
+      <span>
+        {#if toastType === 'success'}✅{/if}
+        {#if toastType === 'danger'}❌{/if}
+        {#if toastType === 'warning'}⚠️{/if}
+      </span>
+      <span>{toastMessage}</span>
+    </div>
+  {/if}
+</div>

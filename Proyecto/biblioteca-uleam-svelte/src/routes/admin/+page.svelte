@@ -1,121 +1,145 @@
 <script>
-  let stats = [
-    { label: "Total Usuarios", value: "1,847", color: "#006633" },
-    { label: "Libros en Catálogo", value: "8,942", color: "#006633" },
-    { label: "Préstamos Activos", value: "387", color: "#d97706" },
-    { label: "Multas Pendientes", value: "24", color: "#C8102E" }
-  ];
+  import { loggedUser, usuarios, libros, prestamos, sanciones, quejas } from '$lib/store.js';
+  import { goto } from '$app/navigation';
+
+  // Reactivos
+  $: totalUsers = $usuarios.length;
+  $: totalBooks = $libros.length;
+  $: activeLoans = $prestamos.filter(p => p.status === 'Activo' || p.status === 'Atrasado');
+  $: activeSanciones = $sanciones.filter(s => s.estado === 'Activa');
+
+  // Préstamos recientes (hasta 5)
+  $: recentLoans = activeLoans.slice(0, 5);
+
+  // Quejas recientes (hasta 3)
+  $: recentQuejas = $quejas.slice(0, 3);
 </script>
 
 <svelte:head>
-  <title>Panel de Administración - Biblioteca ULEAM</title>
+  <title>Dashboard Administrador - Biblioteca Inteligente ULEAM</title>
 </svelte:head>
 
-<div class="app">
-  <!-- Sidebar Admin -->
-  <aside class="sidebar">
-    <div class="logo">⚙️ Admin ULEAM</div>
-    <nav>
-      <a href="/admin" class="active">🏠 Dashboard</a>
-      <a href="/admin/gestion-usuarios">👥 Gestión de Usuarios</a>
-      <a href="/admin/catalogo">📖 Catálogo</a>
-      <a href="/admin/prestamos">📚 Préstamos</a>
-      <a href="/admin/sanciones">⚠️ Sanciones</a>
-      <a href="/admin/reportes">📊 Reportes</a>
-    </nav>
-    <button class="logout" on:click={() => window.location.href = '/'}>Cerrar Sesión</button>
-  </aside>
+<!-- Header -->
+<div class="page-header">
+  <div class="page-title">
+    <h2>Panel Administrativo General</h2>
+    <p>Supervisa usuarios, inventario, sanciones y políticas del sistema autónomo</p>
+  </div>
+  
+  {#if $loggedUser}
+    <div class="user-profile-badge" on:click={() => goto('/estudiante/perfil')}>
+      <div class="avatar-container">{($loggedUser.nombre || '').charAt(0)}</div>
+      <div class="user-meta">
+        <strong>{$loggedUser.nombre}</strong>
+        <span>{$loggedUser.rol}</span>
+      </div>
+    </div>
+  {/if}
+</div>
 
-  <!-- Main Content -->
-  <main>
-    <header>
-      <h1>Panel de Administración</h1>
-    </header>
+<!-- Tarjetas de Estadísticas -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-icon secondary">👥</div>
+    <div class="stat-info">
+      <h3>{totalUsers}</h3>
+      <p>Usuarios Registrados</p>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon primary">📖</div>
+    <div class="stat-info">
+      <h3>{totalBooks}</h3>
+      <p>Libros en Catálogo</p>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon warning">📦</div>
+    <div class="stat-info">
+      <h3>{activeLoans.length}</h3>
+      <p>Préstamos Activos</p>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon danger">⚠️</div>
+    <div class="stat-info">
+      <h3>{activeSanciones.length}</h3>
+      <p>Sanciones Activas</p>
+    </div>
+  </div>
+</div>
 
-    <div class="stats-grid">
-      {#each stats as stat}
-        <div class="stat-card">
-          <h3>{stat.label}</h3>
-          <p class="value" style="color: {stat.color};">{stat.value}</p>
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px; align-items: start; flex-wrap: wrap;">
+  <!-- Préstamos Recientes -->
+  <div class="dashboard-card">
+    <div class="card-title-bar">
+      <h3>Préstamos Activos Recientes</h3>
+      <button class="btn btn-outline btn-sm" on:click={() => goto('/admin/prestamos')}>Ver Todos</button>
+    </div>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Usuario</th>
+            <th>Libro</th>
+            <th>Fecha Límite</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          {#each recentLoans as p}
+            <tr>
+              <td style="font-weight: 600;">{p.userNombre}</td>
+              <td>{p.bookTitulo}</td>
+              <td>{p.fechaDevolucion}</td>
+              <td>
+                <span class="badge {p.status === 'Atrasado' ? 'badge-danger' : 'badge-success'}">
+                  {p.status}
+                </span>
+              </td>
+            </tr>
+          {:else}
+            <tr>
+              <td colspan="4" style="text-align: center; color: var(--text-muted); padding: 20px;">
+                No hay préstamos activos registrados.
+              </td>
+            </tr>
+          {/each}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Quejas y Sugerencias Recientes -->
+  <div class="dashboard-card">
+    <div class="card-title-bar">
+      <h3>Reportes Recientes</h3>
+      <button class="btn btn-outline btn-sm" on:click={() => goto('/admin/reportes')}>Ver Historial</button>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 15px;">
+      {#each recentQuejas as q}
+        <div style="background: #f8fafc; border-radius: var(--radius-sm); border: 1px solid var(--border); padding: 15px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+            <strong style="font-size: 0.9rem; color: var(--text-main);">{q.asunto}</strong>
+            <span class="badge {q.estado === 'Resuelto' ? 'badge-success' : q.estado === 'En Proceso' ? 'badge-info' : 'badge-warning'}" style="font-size: 0.65rem;">
+              {q.estado}
+            </span>
+          </div>
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px; line-height: 1.3;">
+            {q.descripcion}
+          </p>
+          <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted);">
+            <span>Por: {q.userNombre}</span>
+            <span>{q.fecha}</span>
+          </div>
+        </div>
+      {:else}
+        <div style="text-align: center; color: var(--text-muted); padding: 20px;">
+          No hay reportes de usuarios registrados.
         </div>
       {/each}
     </div>
-
-    <h2 style="margin-top: 40px;">Acciones Rápidas</h2>
-    <div class="actions-grid">
-      <div class="action-card" on:click={() => alert('Gestión de Usuarios')}>
-        👥 Gestión de Usuarios
-      </div>
-      <div class="action-card" on:click={() => alert('Administrar Catálogo')}>
-        📖 Administrar Catálogo
-      </div>
-      <div class="action-card" on:click={() => alert('Ver Reportes')}>
-        📊 Reportes y Estadísticas
-      </div>
-    </div>
-  </main>
+  </div>
 </div>
-
-<style>
-  .app { display: flex; min-height: 100vh; }
-  .sidebar {
-    width: 260px;
-    background: #006633;
-    color: white;
-    padding: 20px;
-  }
-  .logo { font-size: 1.8rem; font-weight: bold; margin-bottom: 30px; }
-  nav a {
-    display: block;
-    padding: 14px 20px;
-    color: white;
-    text-decoration: none;
-    border-radius: 10px;
-    margin-bottom: 6px;
-  }
-  nav a.active, nav a:hover { background: rgba(255,255,255,0.2); }
-  .logout {
-    margin-top: auto;
-    width: 100%;
-    padding: 12px;
-    background: #C8102E;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-  }
-  main { flex: 1; padding: 30px; }
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 20px;
-  }
-  .stat-card {
-    background: white;
-    padding: 25px;
-    border-radius: 16px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-  }
-  .value {
-    font-size: 2.8rem;
-    font-weight: bold;
-    margin-top: 10px;
-  }
-  .actions-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
-    margin-top: 20px;
-  }
-  .action-card {
-    background: white;
-    padding: 25px;
-    border-radius: 16px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    cursor: pointer;
-    font-size: 1.2rem;
-  }
-  .action-card:hover {
-    transform: translateY(-5px);
-  }
-</style>
