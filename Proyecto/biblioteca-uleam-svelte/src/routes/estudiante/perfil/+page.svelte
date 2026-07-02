@@ -5,9 +5,9 @@
   let showPasswordModal = false;
 
   // Campos editables del perfil
-  let profNombre = $loggedUser ? $loggedUser.nombre : '';
-  let profCarrera = $loggedUser ? $loggedUser.carrera : '';
-  let profTelefono = $loggedUser ? $loggedUser.telefono : '';
+  let profNombre = $state($loggedUser ? $loggedUser.nombre : '');
+  let profCarrera = $state($loggedUser ? $loggedUser.carrera : '');
+  let profTelefono = $state($loggedUser ? $loggedUser.telefono : '');
 
   // Campos de contraseña modal
   let oldPassword = '';
@@ -29,13 +29,13 @@
   }
 
   // Mantener campos sincronizados si cambia loggedUser
-  $: {
+  $effect(() => {
     if ($loggedUser) {
       profNombre = $loggedUser.nombre;
       profCarrera = $loggedUser.carrera;
       profTelefono = $loggedUser.telefono;
     }
-  }
+  });
 
   function saveProfile() {
     if (!profNombre.trim() || !profCarrera.trim() || !profTelefono.trim()) {
@@ -115,10 +115,10 @@
       {$loggedUser?.rol}
     </p>
     
-    <button on:click={openPasswordModal} class="btn btn-outline" style="width: 100%; justify-content: center; margin-bottom: 10px;">
+    <button onclick={openPasswordModal} class="btn btn-outline" style="width: 100%; justify-content: center; margin-bottom: 10px;">
       🔑 Cambiar Contraseña
     </button>
-    <button on:click={handleLogout} class="btn btn-danger" style="width: 100%; justify-content: center; background: transparent; border-color: var(--danger); color: var(--danger);">
+    <button onclick={handleLogout} class="btn btn-danger" style="width: 100%; justify-content: center; background: transparent; border-color: var(--danger); color: var(--danger);">
       Cerrar Sesión
     </button>
   </div>
@@ -159,7 +159,7 @@
     </div>
 
     <div style="margin-top: 25px; display: flex; justify-content: flex-end;">
-      <button on:click={saveProfile} class="btn btn-primary btn-lg">
+      <button onclick={saveProfile} class="btn btn-primary btn-lg">
         Guardar Cambios
       </button>
     </div>
@@ -171,7 +171,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <h4>Cambiar Contraseña</h4>
-      <button class="btn-close" on:click={closePasswordModal}>&times;</button>
+      <button class="btn-close" onclick={closePasswordModal}>&times;</button>
     </div>
     <div class="modal-body">
       <div class="form-group">
@@ -188,8 +188,8 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-outline" on:click={closePasswordModal}>Cancelar</button>
-      <button class="btn btn-primary" on:click={changePassword}>Actualizar Contraseña</button>
+      <button class="btn btn-outline" onclick={closePasswordModal}>Cancelar</button>
+      <button class="btn btn-primary" onclick={changePassword}>Actualizar Contraseña</button>
     </div>
   </div>
 </div>

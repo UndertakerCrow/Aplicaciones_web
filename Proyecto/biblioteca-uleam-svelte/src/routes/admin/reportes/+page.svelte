@@ -61,7 +61,7 @@
   </div>
   
   {#if $loggedUser}
-    <div class="user-profile-badge" on:click={() => goto('/estudiante/perfil')}>
+    <div class="user-profile-badge" onclick={() => goto('/estudiante/perfil')}>
       <div class="avatar-container">{($loggedUser.nombre || '').charAt(0)}</div>
       <div class="user-meta">
         <strong>{$loggedUser.nombre}</strong>
@@ -82,21 +82,21 @@
       <div style="font-size: 32px; margin-bottom: 10px;">📦</div>
       <h4 style="margin-bottom: 8px;">Reporte de Préstamos</h4>
       <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">Listado total de préstamos activos, devueltos y atrasados en formato de datos.</p>
-      <button on:click={() => downloadReport('prestamos')} class="btn btn-outline btn-sm" style="width: 100%; justify-content: center; color: var(--secondary); border-color: var(--secondary);">Generar Reporte</button>
+      <button onclick={() => downloadReport('prestamos')} class="btn btn-outline btn-sm" style="width: 100%; justify-content: center; color: var(--secondary); border-color: var(--secondary);">Generar Reporte</button>
     </div>
 
     <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 20px; text-align: center;">
       <div style="font-size: 32px; margin-bottom: 10px;">📖</div>
       <h4 style="margin-bottom: 8px;">Reporte de Inventario</h4>
       <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">Estadísticas del catálogo, stock disponible, libros más leídos y categorías.</p>
-      <button on:click={() => downloadReport('libros')} class="btn btn-outline btn-sm" style="width: 100%; justify-content: center; color: var(--secondary); border-color: var(--secondary);">Generar Reporte</button>
+      <button onclick={() => downloadReport('libros')} class="btn btn-outline btn-sm" style="width: 100%; justify-content: center; color: var(--secondary); border-color: var(--secondary);">Generar Reporte</button>
     </div>
 
     <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 20px; text-align: center;">
       <div style="font-size: 32px; margin-bottom: 10px;">⚠️</div>
       <h4 style="margin-bottom: 8px;">Reporte de Fines y Faltas</h4>
       <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">Listado de multas y sanciones aplicadas, recaudación y penalidades activas.</p>
-      <button on:click={() => downloadReport('sanciones')} class="btn btn-outline btn-sm" style="width: 100%; justify-content: center; color: var(--secondary); border-color: var(--secondary);">Generar Reporte</button>
+      <button onclick={() => downloadReport('sanciones')} class="btn btn-outline btn-sm" style="width: 100%; justify-content: center; color: var(--secondary); border-color: var(--secondary);">Generar Reporte</button>
     </div>
   </div>
 </div>
@@ -135,9 +135,9 @@
             </td>
             <td>
               {#if q.estado === 'Recibido'}
-                <button on:click={() => updateComplaintStatus(q.id, 'En Proceso')} class="btn btn-outline btn-sm" style="color: var(--secondary); border-color: var(--secondary);">Atender</button>
+                <button onclick={() => updateComplaintStatus(q.id, 'En Proceso')} class="btn btn-outline btn-sm" style="color: var(--secondary); border-color: var(--secondary);">Atender</button>
               {:else if q.estado === 'En Proceso'}
-                <button on:click={() => updateComplaintStatus(q.id, 'Resuelto')} class="btn btn-primary btn-sm">Marcar Resuelto</button>
+                <button onclick={() => updateComplaintStatus(q.id, 'Resuelto')} class="btn btn-primary btn-sm">Marcar Resuelto</button>
               {:else}
                 <span style="color: var(--text-muted); font-size: 0.85rem; font-weight: 500;">Cerrada</span>
               {/if}

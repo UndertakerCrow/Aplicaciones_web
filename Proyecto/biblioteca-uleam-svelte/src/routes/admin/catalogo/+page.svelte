@@ -32,17 +32,17 @@
   }
 
   // Categorías únicas para filtro
-  $: categorias = [...new Set($libros.map(l => l.categoria))];
+  const categorias = $derived([...new Set($libros.map(l => l.categoria))]);
 
   // Filtrado reactivo de libros
-  $: filteredBooks = $libros.filter(l => {
+  const filteredBooks = $derived($libros.filter(l => {
     const matchesSearch =
       (l.titulo || '').toLowerCase().includes(search.toLowerCase()) ||
       (l.autor || '').toLowerCase().includes(search.toLowerCase()) ||
       (l.isbn || '').includes(search);
     const matchesCat = selectedCategory === '' || l.categoria === selectedCategory;
     return matchesSearch && matchesCat;
-  });
+  }));
 
   function showAddBookModal() {
     isEditing = false;
@@ -156,7 +156,7 @@
   </div>
   
   {#if $loggedUser}
-    <div class="user-profile-badge" on:click={() => goto('/estudiante/perfil')}>
+    <div class="user-profile-badge" onclick={() => goto('/estudiante/perfil')}>
       <div class="avatar-container">{($loggedUser.nombre || '').charAt(0)}</div>
       <div class="user-meta">
         <strong>{$loggedUser.nombre}</strong>
@@ -170,7 +170,7 @@
 <div class="dashboard-card">
   <div class="card-title-bar">
     <h3>Material Bibliográfico</h3>
-    <button class="btn btn-primary" on:click={showAddBookModal}>➕ Agregar Material</button>
+    <button class="btn btn-primary" onclick={showAddBookModal}>➕ Agregar Material</button>
   </div>
 
   <div style="margin-bottom: 20px; display: flex; gap: 15px; flex-wrap: wrap;">
@@ -219,8 +219,8 @@
             </td>
             <td>
               <div style="display: flex; gap: 8px;">
-                <button on:click={() => showEditBookModal(l)} class="btn btn-outline btn-sm">Editar</button>
-                <button on:click={() => deleteBook(l.id)} class="btn btn-danger btn-sm">Eliminar</button>
+                <button onclick={() => showEditBookModal(l)} class="btn btn-outline btn-sm">Editar</button>
+                <button onclick={() => deleteBook(l.id)} class="btn btn-danger btn-sm">Eliminar</button>
               </div>
             </td>
           </tr>
@@ -241,7 +241,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <h4>{isEditing ? `Editar Libro: ${bkTitulo}` : 'Agregar Nuevo Material'}</h4>
-      <button class="btn-close" on:click={closeBookModal}>&times;</button>
+      <button class="btn-close" onclick={closeBookModal}>&times;</button>
     </div>
     <div class="modal-body">
       <div class="form-group">
@@ -278,8 +278,8 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-outline" on:click={closeBookModal}>Cancelar</button>
-      <button class="btn btn-primary" on:click={saveBook}>Guardar Libro</button>
+      <button class="btn btn-outline" onclick={closeBookModal}>Cancelar</button>
+      <button class="btn btn-primary" onclick={saveBook}>Guardar Libro</button>
     </div>
   </div>
 </div>

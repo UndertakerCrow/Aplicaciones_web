@@ -29,14 +29,14 @@
   }
 
   // Filtrado reactivo de usuarios
-  $: filteredUsers = $usuarios.filter(u => {
+  const filteredUsers = $derived($usuarios.filter(u => {
     return (
       (u.nombre || '').toLowerCase().includes(search.toLowerCase()) ||
       (u.email || '').toLowerCase().includes(search.toLowerCase()) ||
       (u.id || '').toLowerCase().includes(search.toLowerCase()) ||
       (u.rol || '').toLowerCase().includes(search.toLowerCase())
     );
-  });
+  }));
 
   function showAddUserModal() {
     isEditing = false;
@@ -73,9 +73,8 @@
     if (!isEditing) {
       // Registrar nuevo usuario
       let userExists = false;
-      usuarios.subscribe(list => {
-        userExists = list.some(u => u.id === usrId.trim() || u.email.toLowerCase() === usrEmail.trim().toLowerCase());
-      })();
+      const currentUsers = $usuarios;
+      userExists = currentUsers.some(u => u.id === usrId.trim() || u.email.toLowerCase() === usrEmail.trim().toLowerCase());
 
       if (userExists) {
         triggerToast("El ID o Correo ya se encuentra registrado.", "danger");
@@ -171,7 +170,7 @@
   </div>
   
   {#if $loggedUser}
-    <div class="user-profile-badge" on:click={() => goto('/estudiante/perfil')}>
+    <div class="user-profile-badge" onclick={() => goto('/estudiante/perfil')}>
       <div class="avatar-container">{($loggedUser.nombre || '').charAt(0)}</div>
       <div class="user-meta">
         <strong>{$loggedUser.nombre}</strong>
@@ -185,7 +184,7 @@
 <div class="dashboard-card">
   <div class="card-title-bar">
     <h3>Usuarios Registrados</h3>
-    <button class="btn btn-primary" on:click={showAddUserModal}>➕ Registrar Usuario</button>
+    <button class="btn btn-primary" onclick={showAddUserModal}>➕ Registrar Usuario</button>
   </div>
 
   <div style="margin-bottom: 20px;">
@@ -218,12 +217,12 @@
             </td>
             <td>
               <div style="display: flex; gap: 8px;">
-                <button on:click={() => showEditUserModal(u)} class="btn btn-outline btn-sm">Editar</button>
+                <button onclick={() => showEditUserModal(u)} class="btn btn-outline btn-sm">Editar</button>
                 {#if u.id !== $loggedUser?.id}
-                  <button on:click={() => toggleBlock(u.id)} class="btn btn-outline btn-sm" style="{u.estado === 'Activo' ? 'color: var(--danger); border-color: var(--danger);' : 'color: var(--success); border-color: var(--success);'}">
+                  <button onclick={() => toggleBlock(u.id)} class="btn btn-outline btn-sm" style="{u.estado === 'Activo' ? 'color: var(--danger); border-color: var(--danger);' : 'color: var(--success); border-color: var(--success);'}">
                     {u.estado === 'Activo' ? 'Bloquear' : 'Desbloquear'}
                   </button>
-                  <button on:click={() => deleteUser(u.id)} class="btn btn-danger btn-sm">Eliminar</button>
+                  <button onclick={() => deleteUser(u.id)} class="btn btn-danger btn-sm">Eliminar</button>
                 {:else}
                   <span style="color: var(--text-muted); font-size: 0.8rem; padding: 6px 12px; font-weight: 500;">(Tú)</span>
                 {/if}
@@ -247,7 +246,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <h4>{isEditing ? `Editar Usuario: ${usrNombre}` : 'Registrar Nuevo Usuario'}</h4>
-      <button class="btn-close" on:click={closeUserModal}>&times;</button>
+      <button class="btn-close" onclick={closeUserModal}>&times;</button>
     </div>
     <div class="modal-body">
       <div class="form-group">
@@ -280,8 +279,8 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-outline" on:click={closeUserModal}>Cancelar</button>
-      <button class="btn btn-primary" on:click={saveUser}>Guardar Usuario</button>
+      <button class="btn btn-outline" onclick={closeUserModal}>Cancelar</button>
+      <button class="btn btn-primary" onclick={saveUser}>Guardar Usuario</button>
     </div>
   </div>
 </div>

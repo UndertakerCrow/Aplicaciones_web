@@ -3,16 +3,16 @@
   import { goto } from '$app/navigation';
 
   // Reactivos
-  $: totalUsers = $usuarios.length;
-  $: totalBooks = $libros.length;
-  $: activeLoans = $prestamos.filter(p => p.status === 'Activo' || p.status === 'Atrasado');
-  $: activeSanciones = $sanciones.filter(s => s.estado === 'Activa');
+  const totalUsers = $derived($usuarios.length);
+  const totalBooks = $derived($libros.length);
+  const activeLoans = $derived($prestamos.filter(p => p.status === 'Activo' || p.status === 'Atrasado'));
+  const activeSanciones = $derived($sanciones.filter(s => s.estado === 'Activa'));
 
   // Préstamos recientes (hasta 5)
-  $: recentLoans = activeLoans.slice(0, 5);
+  const recentLoans = $derived(activeLoans.slice(0, 5));
 
   // Quejas recientes (hasta 3)
-  $: recentQuejas = $quejas.slice(0, 3);
+  const recentQuejas = $derived($quejas.slice(0, 3));
 </script>
 
 <svelte:head>
@@ -27,7 +27,7 @@
   </div>
   
   {#if $loggedUser}
-    <div class="user-profile-badge" on:click={() => goto('/estudiante/perfil')}>
+    <div class="user-profile-badge" onclick={() => goto('/estudiante/perfil')}>
       <div class="avatar-container">{($loggedUser.nombre || '').charAt(0)}</div>
       <div class="user-meta">
         <strong>{$loggedUser.nombre}</strong>
@@ -74,7 +74,7 @@
   <div class="dashboard-card">
     <div class="card-title-bar">
       <h3>Préstamos Activos Recientes</h3>
-      <button class="btn btn-outline btn-sm" on:click={() => goto('/admin/prestamos')}>Ver Todos</button>
+      <button class="btn btn-outline btn-sm" onclick={() => goto('/admin/prestamos')}>Ver Todos</button>
     </div>
 
     <div class="table-container">
@@ -115,7 +115,7 @@
   <div class="dashboard-card">
     <div class="card-title-bar">
       <h3>Reportes Recientes</h3>
-      <button class="btn btn-outline btn-sm" on:click={() => goto('/admin/reportes')}>Ver Historial</button>
+      <button class="btn btn-outline btn-sm" onclick={() => goto('/admin/reportes')}>Ver Historial</button>
     </div>
 
     <div style="display: flex; flex-direction: column; gap: 15px;">

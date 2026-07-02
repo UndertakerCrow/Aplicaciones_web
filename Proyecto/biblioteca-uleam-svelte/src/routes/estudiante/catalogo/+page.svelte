@@ -1,17 +1,16 @@
 <script>
-  import { onMount } from 'svelte';
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
   import { libros, config, loggedUser, actions } from '$lib/store.js';
 
-  let search = '';
-  let selectedCategory = '';
-  let selectedBook = null;
-  let showModal = false;
+  let search = $state('');
+  let selectedCategory = $state('');
+  let selectedBook = $state(null);
+  let showModal = $state(false);
 
   // Notificaciones
-  let toastMessage = '';
-  let toastType = 'success';
-  let toastVisible = false;
+  let toastMessage = $state('');
+  let toastType = $state('success');
+  let toastVisible = $state(false);
 
   function triggerToast(msg, type = 'success') {
     toastMessage = msg;
@@ -20,23 +19,23 @@
     setTimeout(() => toastVisible = false, 3500);
   }
 
-  // Suscribirse a URL Params para búsquedas directas
-  onMount(() => {
-    const s = $page.url.searchParams.get('search');
+  // Leer URL Params para búsquedas directas
+  $effect(() => {
+    const s = page.url.searchParams.get('search');
     if (s) search = s;
   });
 
   // Categorías únicas
-  $: categorias = [...new Set($libros.map(l => l.categoria))];
+  const categorias = $derived([...new Set($libros.map(l => l.categoria))]);
 
   // Filtrado reactivo
-  $: filteredBooks = $libros.filter(l => {
+  const filteredBooks = $derived($libros.filter(l => {
     const matchesSearch = l.titulo.toLowerCase().includes(search.toLowerCase()) || 
                           l.autor.toLowerCase().includes(search.toLowerCase()) || 
                           l.categoria.toLowerCase().includes(search.toLowerCase());
     const matchesCat = selectedCategory === '' || l.categoria === selectedCategory;
     return matchesSearch && matchesCat;
-  });
+  }));
 
   function openBookModal(libro) {
     selectedBook = libro;
@@ -92,7 +91,7 @@
           <span class="stock-badge {l.stock > 0 ? 'available' : 'empty'}">
             {l.stock > 0 ? `Disp: ${l.stock}` : 'Agotado'}
           </span>
-          <button on:click={() => openBookModal(l)} class="btn btn-primary btn-sm">Ver Detalles</button>
+          <button onclick={() => openBookModal(l)} class="btn btn-primary btn-sm">Ver Detalles</button>
         </div>
       </div>
     </div>
@@ -110,7 +109,7 @@
     {#if selectedBook}
       <div class="modal-header">
         <h4>{selectedBook.titulo}</h4>
-        <button class="btn-close" on:click={() => showModal = false}>&times;</button>
+        <button class="btn-close" onclick={() => showModal = false}>&times;</button>
       </div>
       <div class="modal-body">
         <div style="display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap;">
@@ -119,12 +118,14 @@
           </div>
           <div style="flex-grow: 1; min-width: 200px;">
             <table style="width: 100%; border: none; box-shadow: none;">
-              <tr style="border: none; background: transparent;"><td style="padding: 4px 0; font-weight: 600; color: var(--text-muted); width: 100px;">Autor:</td><td style="padding: 4px 0;">{selectedBook.autor}</td></tr>
-              <tr style="border: none; background: transparent;"><td style="padding: 4px 0; font-weight: 600; color: var(--text-muted); font-size:0.9rem;">Categoría:</td><td style="padding: 4px 0;">{selectedBook.categoria}</td></tr>
-              <tr style="border: none; background: transparent;"><td style="padding: 4px 0; font-weight: 600; color: var(--text-muted);">Año:</td><td style="padding: 4px 0;">{selectedBook.anio}</td></tr>
-              <tr style="border: none; background: transparent;"><td style="padding: 4px 0; font-weight: 600; color: var(--text-muted);">Páginas:</td><td style="padding: 4px 0;">{selectedBook.paginas} pág.</td></tr>
-              <tr style="border: none; background: transparent;"><td style="padding: 4px 0; font-weight: 600; color: var(--text-muted);">ISBN:</td><td style="padding: 4px 0; font-size: 0.85rem;">{selectedBook.isbn}</td></tr>
-              <tr style="border: none; background: transparent;"><td style="padding: 4px 0; font-weight: 600; color: var(--text-muted);">Ubicación:</td><td style="padding: 4px 0;">Sección {selectedBook.categoria.split(' ')[0]}</td></tr>
+              <tbody>
+                <tr style="border: none; background: transparent;"><td style="padding: 4px 0; font-weight: 600; color: var(--text-muted); width: 100px;">Autor:</td><td style="padding: 4px 0;">{selectedBook.autor}</td></tr>
+                <tr style="border: none; background: transparent;"><td style="padding: 4px 0; font-weight: 600; color: var(--text-muted); font-size:0.9rem;">Categoría:</td><td style="padding: 4px 0;">{selectedBook.categoria}</td></tr>
+                <tr style="border: none; background: transparent;"><td style="padding: 4px 0; font-weight: 600; color: var(--text-muted);">Año:</td><td style="padding: 4px 0;">{selectedBook.anio}</td></tr>
+                <tr style="border: none; background: transparent;"><td style="padding: 4px 0; font-weight: 600; color: var(--text-muted);">Páginas:</td><td style="padding: 4px 0;">{selectedBook.paginas} pág.</td></tr>
+                <tr style="border: none; background: transparent;"><td style="padding: 4px 0; font-weight: 600; color: var(--text-muted);">ISBN:</td><td style="padding: 4px 0; font-size: 0.85rem;">{selectedBook.isbn}</td></tr>
+                <tr style="border: none; background: transparent;"><td style="padding: 4px 0; font-weight: 600; color: var(--text-muted);">Ubicación:</td><td style="padding: 4px 0;">Sección {selectedBook.categoria.split(' ')[0]}</td></tr>
+              </tbody>
             </table>
           </div>
         </div>
@@ -139,9 +140,9 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-outline" on:click={() => showModal = false}>Cerrar</button>
+        <button class="btn btn-outline" onclick={() => showModal = false}>Cerrar</button>
         {#if selectedBook.stock > 0}
-          <button class="btn btn-primary" on:click={confirmLoan}>Solicitar Préstamo</button>
+          <button class="btn btn-primary" onclick={confirmLoan}>Solicitar Préstamo</button>
         {/if}
       </div>
     {/if}

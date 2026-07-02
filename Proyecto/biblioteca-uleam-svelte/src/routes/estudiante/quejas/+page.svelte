@@ -19,7 +19,7 @@
   }
 
   // Historial de reportes del estudiante activo
-  $: studentQuejas = $quejas.filter(q => q.userId === $loggedUser?.id);
+  const studentQuejas = $derived($quejas.filter(q => q.userId === $loggedUser?.id));
 
   function submitComplaint() {
     if (!subject.trim() || !desc.trim()) {
@@ -63,7 +63,7 @@
       <textarea id="complainDesc" bind:value={desc} style="height: 150px;" placeholder="Describe detalladamente el problema experimentado en la biblioteca..."></textarea>
     </div>
 
-    <button on:click={submitComplaint} class="btn btn-primary" style="width: 100%; justify-content: center;">
+    <button onclick={submitComplaint} class="btn btn-primary" style="width: 100%; justify-content: center;">
       Enviar Queja / Sugerencia
     </button>
   </div>

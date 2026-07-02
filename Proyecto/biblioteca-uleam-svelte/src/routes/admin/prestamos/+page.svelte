@@ -25,20 +25,20 @@
   }
 
   // Filtrado reactivo de préstamos
-  $: filteredLoans = $prestamos.filter(p => {
+  const filteredLoans = $derived($prestamos.filter(p => {
     const matchesSearch =
       (p.id || '').toLowerCase().includes(search.toLowerCase()) ||
       (p.userNombre || '').toLowerCase().includes(search.toLowerCase()) ||
       (p.bookTitulo || '').toLowerCase().includes(search.toLowerCase());
     const matchesStatus = statusFilter === '' || p.status === statusFilter;
     return matchesSearch && matchesStatus;
-  });
+  }));
 
   // Usuarios elegibles (activos y que no sean administrador)
-  $: eligibleUsers = $usuarios.filter(u => u.estado === 'Activo' && u.rol !== 'Administrador');
+  const eligibleUsers = $derived($usuarios.filter(u => u.estado === 'Activo' && u.rol !== 'Administrador'));
 
   // Libros con stock disponible
-  $: availableBooks = $libros.filter(l => l.stock > 0);
+  const availableBooks = $derived($libros.filter(l => l.stock > 0));
 
   function showNewLoanModal() {
     if (eligibleUsers.length === 0) {
@@ -103,7 +103,7 @@
   </div>
   
   {#if $loggedUser}
-    <div class="user-profile-badge" on:click={() => goto('/estudiante/perfil')}>
+    <div class="user-profile-badge" onclick={() => goto('/estudiante/perfil')}>
       <div class="avatar-container">{($loggedUser.nombre || '').charAt(0)}</div>
       <div class="user-meta">
         <strong>{$loggedUser.nombre}</strong>
@@ -117,7 +117,7 @@
 <div class="dashboard-card">
   <div class="card-title-bar">
     <h3>Préstamos en el Sistema</h3>
-    <button class="btn btn-primary" on:click={showNewLoanModal}>➕ Registrar Salida Manual</button>
+    <button class="btn btn-primary" onclick={showNewLoanModal}>➕ Registrar Salida Manual</button>
   </div>
 
   <div style="margin-bottom: 20px; display: flex; gap: 15px; flex-wrap: wrap;">
@@ -162,7 +162,7 @@
             </td>
             <td>
               {#if p.status !== 'Devuelto'}
-                <button on:click={() => processReturn(p.id)} class="btn btn-outline btn-sm" style="color: var(--primary); border-color: var(--primary);">
+                <button onclick={() => processReturn(p.id)} class="btn btn-outline btn-sm" style="color: var(--primary); border-color: var(--primary);">
                   Registrar Entrega
                 </button>
               {:else}
@@ -187,7 +187,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <h4>Registrar Préstamo Manual</h4>
-      <button class="btn-close" on:click={closeLoanModal}>&times;</button>
+      <button class="btn-close" onclick={closeLoanModal}>&times;</button>
     </div>
     <div class="modal-body">
       <div class="form-group">
@@ -208,8 +208,8 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-outline" on:click={closeLoanModal}>Cancelar</button>
-      <button class="btn btn-primary" on:click={saveManualLoan}>Registrar Préstamo</button>
+      <button class="btn btn-outline" onclick={closeLoanModal}>Cancelar</button>
+      <button class="btn btn-primary" onclick={saveManualLoan}>Registrar Préstamo</button>
     </div>
   </div>
 </div>

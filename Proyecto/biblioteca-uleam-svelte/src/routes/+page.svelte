@@ -59,9 +59,8 @@
     }
 
     let userExists = false;
-    usuarios.subscribe(list => {
-      userExists = list.some(u => u.id === regId.trim() || u.email.toLowerCase() === regEmail.trim().toLowerCase());
-    })();
+    const currentUsers = $usuarios;
+    userExists = currentUsers.some(u => u.id === regId.trim() || u.email.toLowerCase() === regEmail.trim().toLowerCase());
 
     if (userExists) {
       triggerToast("Este ID o Correo ya se encuentra registrado.", "danger");
@@ -106,9 +105,9 @@
       <div class="quick-access-box">
         <h5>Acceso Rápido Svelte</h5>
         <div class="quick-access-buttons">
-          <button type="button" on:click={() => setQuickLogin('estudiante@uleam.edu.ec')}>Estudiante</button>
-          <button type="button" on:click={() => setQuickLogin('docente@uleam.edu.ec')}>Docente</button>
-          <button type="button" on:click={() => setQuickLogin('admin@uleam.edu.ec')}>Admin</button>
+          <button type="button" onclick={() => setQuickLogin('estudiante@uleam.edu.ec')}>Estudiante</button>
+          <button type="button" onclick={() => setQuickLogin('docente@uleam.edu.ec')}>Docente</button>
+          <button type="button" onclick={() => setQuickLogin('admin@uleam.edu.ec')}>Admin</button>
         </div>
       </div>
 
@@ -122,13 +121,13 @@
         <input type="password" id="password" bind:value={password} placeholder="••••••••">
       </div>
 
-      <button on:click={handleLogin} class="btn btn-primary btn-lg" style="width: 100%; justify-content: center;">
+      <button onclick={handleLogin} class="btn btn-primary btn-lg" style="width: 100%; justify-content: center;">
         Ingresar al Sistema
       </button>
 
       <p style="text-align: center; margin-top: 20px; font-size: 0.85rem; color: var(--text-muted);">
         ¿No tienes cuenta? 
-        <button on:click={() => showRegister = true} style="background: none; border: none; color: var(--primary); font-weight: 600; cursor: pointer; padding: 0;">
+        <button onclick={() => showRegister = true} style="background: none; border: none; color: var(--primary); font-weight: 600; cursor: pointer; padding: 0;">
           Regístrate aquí
         </button>
       </p>
@@ -141,7 +140,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <h4>Registrar Nuevo Usuario</h4>
-      <button class="btn-close" on:click={() => showRegister = false}>&times;</button>
+      <button class="btn-close" onclick={() => showRegister = false}>&times;</button>
     </div>
     <div class="modal-body">
       <div class="form-group">
@@ -173,8 +172,8 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-outline" on:click={() => showRegister = false}>Cancelar</button>
-      <button class="btn btn-primary" on:click={handleRegister}>Registrarse</button>
+      <button class="btn btn-outline" onclick={() => showRegister = false}>Cancelar</button>
+      <button class="btn btn-primary" onclick={handleRegister}>Registrarse</button>
     </div>
   </div>
 </div>

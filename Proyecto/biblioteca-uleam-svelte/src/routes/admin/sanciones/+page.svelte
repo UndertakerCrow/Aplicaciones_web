@@ -3,16 +3,16 @@
   import { goto } from '$app/navigation';
 
   // Variables para la configuración del sistema (Políticas)
-  let cfgMulta = $config.multaDia;
-  let cfgDias = $config.diasMaximo;
-  let cfgMaxBooks = $config.limiteLibros;
-  let cfgAutoSan = $config.sancionAutomatica;
+  let cfgMulta = $state($config.multaDia);
+  let cfgDias = $state($config.diasMaximo);
+  let cfgMaxBooks = $state($config.limiteLibros);
+  let cfgAutoSan = $state($config.sancionAutomatica);
 
   // Variables para aplicar una sanción manual
-  let sanUserId = '';
-  let sanTipo = 'Multa económica';
-  let sanMonto = 0.00;
-  let sanMotivo = '';
+  let sanUserId = $state('');
+  let sanTipo = $state('Multa económica');
+  let sanMonto = $state(0.00);
+  let sanMotivo = $state('');
 
   // Toast
   let toastMessage = '';
@@ -29,14 +29,14 @@
   }
 
   // Lista de usuarios sancionables (no administradores)
-  $: penalizableUsers = $usuarios.filter(u => u.rol !== 'Administrador');
+  const penalizableUsers = $derived($usuarios.filter(u => u.rol !== 'Administrador'));
 
   // Inicializar el select de usuarios si hay disponibles
-  $: {
+  $effect(() => {
     if (penalizableUsers.length > 0 && !sanUserId) {
       sanUserId = penalizableUsers[0].id;
     }
-  }
+  });
 
   function saveConfig() {
     const multaDia = parseFloat(cfgMulta);
@@ -108,7 +108,7 @@
   </div>
   
   {#if $loggedUser}
-    <div class="user-profile-badge" on:click={() => goto('/estudiante/perfil')}>
+    <div class="user-profile-badge" onclick={() => goto('/estudiante/perfil')}>
       <div class="avatar-container">{($loggedUser.nombre || '').charAt(0)}</div>
       <div class="user-meta">
         <strong>{$loggedUser.nombre}</strong>
@@ -147,7 +147,7 @@
       <label for="cfgAutoSan" style="cursor: pointer; font-size: 0.9rem;">Habilitar Sanciones Automáticas por Retraso</label>
     </div>
 
-    <button on:click={saveConfig} class="btn btn-primary" style="width: 100%; justify-content: center;">
+    <button onclick={saveConfig} class="btn btn-primary" style="width: 100%; justify-content: center;">
       Guardar Políticas del Sistema
     </button>
   </div>
@@ -188,7 +188,7 @@
       <input type="text" id="sanMotivo" bind:value={sanMotivo} placeholder="Ej. Retornó libro con páginas rotas...">
     </div>
 
-    <button on:click={applySanction} class="btn btn-danger" style="width: 100%; justify-content: center;">
+    <button onclick={applySanction} class="btn btn-danger" style="width: 100%; justify-content: center;">
       Confirmar Aplicación de Sanción
     </button>
   </div>
@@ -230,7 +230,7 @@
             </td>
             <td>
               {#if s.estado === 'Activa'}
-                <button on:click={() => processResolve(s.id)} class="btn btn-outline btn-sm" style="color: var(--primary); border-color: var(--primary);">
+                <button onclick={() => processResolve(s.id)} class="btn btn-outline btn-sm" style="color: var(--primary); border-color: var(--primary);">
                   Levantar Penalidad
                 </button>
               {:else}

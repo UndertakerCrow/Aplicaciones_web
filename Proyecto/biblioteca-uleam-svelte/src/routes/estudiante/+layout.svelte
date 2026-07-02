@@ -1,12 +1,10 @@
 <script>
-  import { onMount } from 'svelte';
   import { loggedUser, actions } from '$lib/store.js';
   import { goto } from '$app/navigation';
 
-  let currentRoute = '';
-  let showSidebar = false;
+  let { children } = $props();
 
-  onMount(() => {
+  $effect(() => {
     // Verificar si el usuario está logueado
     if (!$loggedUser) {
       goto('/');
@@ -57,7 +55,7 @@
     </div>
 
     <div class="sidebar-footer">
-      <button on:click={handleLogout} class="btn-logout">
+      <button onclick={handleLogout} class="btn-logout">
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
         <span>Cerrar Sesión</span>
       </button>
@@ -74,7 +72,7 @@
           <p>Portal Autónomo del Estudiante / Docente ULEAM</p>
         </div>
         
-        <div class="user-profile-badge" on:click={() => goto('/estudiante/perfil')}>
+        <div class="user-profile-badge" onclick={() => goto('/estudiante/perfil')}>
           <div class="avatar-container">{$loggedUser.nombre.charAt(0)}</div>
           <div class="user-meta">
             <strong>{$loggedUser.nombre}</strong>
@@ -84,6 +82,6 @@
       </div>
     {/if}
 
-    <slot />
+    {@render children()}
   </div>
 </div>

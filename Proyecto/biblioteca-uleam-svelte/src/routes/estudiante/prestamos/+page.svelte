@@ -13,9 +13,9 @@
   }
 
   // Reactivo: préstamos de este usuario
-  $: userLoans = $prestamos.filter(p => p.userId === $loggedUser?.id);
-  $: activeLoans = userLoans.filter(p => p.status === 'Activo' || p.status === 'Atrasado');
-  $: historyLoans = userLoans.filter(p => p.status === 'Devuelto');
+  const userLoans = $derived($prestamos.filter(p => p.userId === $loggedUser?.id));
+  const activeLoans = $derived(userLoans.filter(p => p.status === 'Activo' || p.status === 'Atrasado'));
+  const historyLoans = $derived(userLoans.filter(p => p.status === 'Devuelto'));
 
   function returnBook(loanId) {
     if (confirm("¿Confirmas que deseas devolver este libro en la compuerta inteligente de la biblioteca?")) {
@@ -70,7 +70,7 @@
             <td><strong>{formatDate(p.fechaDevolucion)}</strong></td>
             <td><span class="badge {p.status === 'Atrasado' ? 'badge-danger' : 'badge-success'}">{p.status === 'Atrasado' ? 'Atrasado' : 'Al día'}</span></td>
             <td>
-              <button on:click={() => returnBook(p.id)} class="btn btn-outline btn-sm" style="color: var(--primary); border-color: var(--primary);">
+              <button onclick={() => returnBook(p.id)} class="btn btn-outline btn-sm" style="color: var(--primary); border-color: var(--primary);">
                 Devolver Libro
               </button>
             </td>

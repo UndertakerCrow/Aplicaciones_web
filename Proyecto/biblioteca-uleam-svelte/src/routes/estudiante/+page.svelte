@@ -3,26 +3,26 @@
   import { goto } from '$app/navigation';
   
   // Calcular estadísticas dinámicamente suscribiéndose a los stores
-  $: userLoans = $prestamos.filter(p => p.userId === $loggedUser?.id);
-  $: activeLoans = userLoans.filter(p => p.status === 'Activo' || p.status === 'Atrasado');
+  const userLoans = $derived($prestamos.filter(p => p.userId === $loggedUser?.id));
+  const activeLoans = $derived(userLoans.filter(p => p.status === 'Activo' || p.status === 'Atrasado'));
   
   // Vencimiento pronto
-  $: today = new Date();
-  $: twoDaysLater = new Date();
-  $: {
+  const nearDueLoans = $derived(() => {
+    const today = new Date();
+    const twoDaysLater = new Date();
     twoDaysLater.setDate(today.getDate() + 2);
-  }
-  $: nearDueLoans = activeLoans.filter(p => {
-    const due = new Date(p.fechaDevolucion);
-    return due >= today && due <= twoDaysLater;
+    return activeLoans.filter(p => {
+      const due = new Date(p.fechaDevolucion);
+      return due >= today && due <= twoDaysLater;
+    });
   });
 
   // Multas
-  $: userSanciones = $sanciones.filter(s => s.userId === $loggedUser?.id && s.estado === 'Activa');
-  $: totalFines = userSanciones.reduce((sum, s) => sum + s.monto, 0);
+  const userSanciones = $derived($sanciones.filter(s => s.userId === $loggedUser?.id && s.estado === 'Activa'));
+  const totalFines = $derived(userSanciones.reduce((sum, s) => sum + s.monto, 0));
 
   // Catálogo recomendado (libros con stock > 0, tomamos 4 primeros)
-  $: recommended = $libros.filter(l => l.stock > 0).slice(0, 4);
+  const recommended = $derived($libros.filter(l => l.stock > 0).slice(0, 4));
 </script>
 
 <svelte:head>
@@ -58,7 +58,7 @@
 <div class="dashboard-card">
   <div class="card-title-bar">
     <h3>Recomendaciones Inteligentes para ti</h3>
-    <button class="btn btn-outline btn-sm" on:click={() => goto('/estudiante/catalogo')}>Ver Catálogo Completo</button>
+    <button class="btn btn-outline btn-sm" onclick={() => goto('/estudiante/catalogo')}>Ver Catálogo Completo</button>
   </div>
 
   <div class="books-grid">
@@ -73,7 +73,7 @@
           <p class="author">{l.autor}</p>
           <div class="meta">
             <span class="stock-badge available">Disp: {l.stock}</span>
-            <button on:click={() => goto(`/estudiante/catalogo?search=${encodeURIComponent(l.titulo)}`)} class="btn btn-primary btn-sm">Ver Detalle</button>
+            <button onclick={() => goto(`/estudiante/catalogo?search=${encodeURIComponent(l.titulo)}`)} class="btn btn-primary btn-sm">Ver Detalle</button>
           </div>
         </div>
       </div>

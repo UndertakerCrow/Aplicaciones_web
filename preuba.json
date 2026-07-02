@@ -1,0 +1,46 @@
+[
+    {
+        "clientes": [
+            {
+            "cedula" : "1315783959 ",
+            "apellidos" : "Carranza acosta ",
+            "nombre" : "derlis dario ",
+            "dirección" : " la pradera ",
+            "teléfono" : "0990560417 ",
+            "correo" : "derlisacosta946@gmail.com "
+            },
+            {
+            "cedula" : "1309430708 ",
+            "apellidos" : " acosta zambrano",
+            "nombre" : "maria fernanda ",
+            "dirección" : "la pradera ",
+            "teléfono" : "0986178239 ",
+            "correo" : " mariferacozamb@gmail.com"
+            },
+            {
+            "cedula" : " 124578963",
+            "apellidos" : " carranza loor",
+            "nombre" : " Cruz dario",
+            "dirección" : " la pradera",
+            "teléfono" : " 0984567123",
+            "correo" : "dariocarranzaloor@gmail.com "
+            },
+            {
+            "cedula" : " 1357896420",
+            "apellidos" : "Carranza acosta  ",
+            "nombre" : " deivid dario",
+            "dirección" : " la pradera",
+            "teléfono" : " 09874561230",
+            "correo" : " devidcarranza122@gmail.com"
+            },
+            {
+            "cedula" : " 1245789630",
+            "apellidos" : "cedeño roldan ",
+            "nombre" : "jofre steven ",
+            "dirección" : " los esteros",
+            "teléfono" : " 0984512367",
+            "correo" : "cedeñorjs@gmail.com "
+            }
+        ]
+    }
+]
