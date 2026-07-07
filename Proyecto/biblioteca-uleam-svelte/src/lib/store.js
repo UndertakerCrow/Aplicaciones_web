@@ -1,3 +1,44 @@
+/**
+ * =============================================================================
+ * STORE CENTRAL - BIBLIOTECA INTELIGENTE ULEAM
+ * =============================================================================
+ *
+ * FRAMEWORK Y LIBRERÍAS:
+ *   - Framework: SvelteKit 2 + Svelte 5 (runes mode)
+ *   - Librería de estado: svelte/store (writable, get)
+ *   - Persistencia: localStorage via $app/environment (browser check)
+ *   - Datos estructurados en formato JSON
+ *
+ * ALMACENAMIENTO LOCAL (JSON + localStorage):
+ *   - Todos los stores (libros, usuarios, prestamos, sanciones, quejas, config)
+ *     se persisten automáticamente en localStorage del navegador.
+ *   - Función createPersistentStore(): inicializa desde localStorage si existe,
+ *     o carga datos por defecto (DEFAULT_BOOKS, DEFAULT_USERS, etc.).
+ *   - Datos en formato JSON: 16 libros, 3 usuarios (1 admin, 2 estudiantes),
+ *     configuración de políticas, préstamos iniciales, sanciones y quejas.
+ *
+ * LÓGICA DE NEGOCIO (JavaScript):
+ *   - actions.login()          → Autenticación por email institucional
+ *   - actions.logout()         → Cierre de sesión
+ *   - actions.solicitarPrestamo() → Registra préstamo con validaciones:
+ *       * Verifica stock > 0
+ *       * Verifica límite de préstamos activos (configurable)
+ *       * Verifica que el usuario no esté bloqueado
+ *   - actions.devolverPrestamo()  → Procesa devolución:
+ *       * Restaura stock del libro
+ *       * Calcula multa por días de retraso (configurable)
+ *       * Aplica sanción automática si está habilitado
+ *   - actions.aplicarSancion()    → Crea sanción y bloquea al usuario
+ *   - actions.levantarSancion()   → Resuelve sanción y desbloquea si no quedan activas
+ *   - actions.enviarQueja()       → Registra queja/sugerencia del estudiante
+ *
+ * VALIDACIONES JAVASCRIPT en store:
+ *   - Stock disponible antes de prestar
+ *   - Límite máximo de libros activos por usuario
+ *   - Estado del usuario (bloqueado/activo)
+ *   - Cálculo de días de retraso con Date arithmetic
+ * =============================================================================
+ */
 import { writable, get } from 'svelte/store';
 import { browser } from '$app/environment';
 

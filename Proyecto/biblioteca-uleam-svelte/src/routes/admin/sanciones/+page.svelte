@@ -1,4 +1,31 @@
 <script>
+  /**
+   * INTERFAZ: SANCIONES Y POLÍTICAS DEL SISTEMA (Admin)
+   * ------------------------------------------------------
+   * Funcionalidad: Configuración de políticas bibliotecarias y gestión de sanciones.
+   *
+   * FRAMEWORK: SvelteKit + Svelte 5 ($state, $derived, $effect runes)
+   * JAVASCRIPT: Gestión de configuración JSON y lógica de sanciones
+   *
+   * FUNCIONALIDADES IDENTIFICADAS:
+   *   - Configurar políticas: multa por día ($), días máximos de préstamo,
+   *     límite de libros simultáneos, sanción automática (on/off)
+   *   - Ver tabla de sanciones activas con filtro reactivo
+   *   - Aplicar sanción manual a cualquier usuario
+   *   - Levantar/resolver sanción → desbloquea al usuario si no quedan activas
+   *
+   * VALIDACIONES DE CAMPOS (JavaScript):
+   *   - cfgMulta: número positivo
+   *   - cfgDias, cfgMaxBooks: enteros >= 1
+   *   - sanUserId: requerido (selección de lista)
+   *   - sanMonto: numérico >= 0
+   *   - sanMotivo: requerido (texto no vacío)
+   *
+   * ALMACENAMIENTO LOCAL:
+   *   - config.set()     → guarda políticas en localStorage
+   *   - sanciones store  → actualizado via actions.aplicarSancion() / levantarSancion()
+   *   - usuarios store   → estado 'Bloqueado'/'Activo' persiste en localStorage
+   */
   import { loggedUser, config, sanciones, usuarios, actions } from '$lib/store.js';
   import { goto } from '$app/navigation';
 

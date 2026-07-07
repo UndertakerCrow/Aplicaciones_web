@@ -1,4 +1,29 @@
 <script>
+  /**
+   * INTERFAZ: GESTIÓN DE PRÉSTAMOS (Admin)
+   * -----------------------------------------
+   * Funcionalidad: Registro manual de préstamos y procesamiento de devoluciones.
+   *
+   * FRAMEWORK: SvelteKit + Svelte 5
+   * JAVASCRIPT: Integración con actions del store para lógica de negocio
+   *
+   * FUNCIONALIDADES IDENTIFICADAS:
+   *   - Listar todos los préstamos con búsqueda y filtro por estado
+   *   - Registrar préstamo manual (selección de usuario y libro disponible)
+   *   - Registrar devolución → calcula multa automática si hay retraso
+   *   - Indicadores visuales de estado: Activo, Atrasado, Devuelto
+   *
+   * VALIDACIONES DE CAMPOS (JavaScript):
+   *   - Requiere selección de usuario elegible (activo, no admin)
+   *   - Requiere selección de libro con stock > 0
+   *   - Delegada a actions.solicitarPrestamo() y actions.devolverPrestamo()
+   *     que verifican: stock, límite de préstamos, estado del usuario
+   *
+   * ALMACENAMIENTO LOCAL:
+   *   - prestamos store → actualizado vía actions (persiste en localStorage)
+   *   - libros store → stock se decrementa/incrementa automáticamente
+   *   - sanciones store → multas generadas se guardan automáticamente
+   */
   import { loggedUser, prestamos, usuarios, libros, actions } from '$lib/store.js';
   import { goto } from '$app/navigation';
 

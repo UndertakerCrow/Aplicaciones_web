@@ -1,4 +1,29 @@
 <script>
+  /**
+   * INTERFAZ: GESTIÓN DE USUARIOS (Admin)
+   * ----------------------------------------
+   * Funcionalidad: CRUD completo de usuarios del sistema.
+   *
+   * FRAMEWORK: SvelteKit + Svelte 5
+   * JAVASCRIPT: Validaciones de formulario, búsqueda reactiva, control de estado
+   *
+   * FUNCIONALIDADES IDENTIFICADAS:
+   *   - Listar usuarios con búsqueda por nombre, email, ID o rol
+   *   - Agregar nuevo usuario (ID, nombre, carrera, teléfono, email, rol, estado)
+   *   - Editar datos de usuario existente
+   *   - Eliminar usuario (no puede eliminarse el usuario activo)
+   *   - Bloquear / Desbloquear usuario manualmente
+   *
+   * VALIDACIONES DE CAMPOS (JavaScript):
+   *   - ID y email: requeridos + verificación de duplicados en el store
+   *   - nombre, carrera, teléfono: requeridos (trim + length)
+   *   - No permite eliminar al propio administrador logueado
+   *
+   * ALMACENAMIENTO LOCAL:
+   *   - usuarios.update() → persiste en localStorage
+   *   - loggedUser.set()  → actualiza sesión activa si se edita el propio perfil
+   *   - filteredUsers ($derived) → filtrado reactivo sin afectar el store
+   */
   import { loggedUser, usuarios } from '$lib/store.js';
   import { goto } from '$app/navigation';
 

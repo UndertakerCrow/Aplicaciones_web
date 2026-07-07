@@ -1,4 +1,23 @@
 <script>
+  /**
+   * INTERFAZ: DASHBOARD ADMINISTRADOR
+   * ------------------------------------
+   * Funcionalidad: Panel de control con métricas en tiempo real del sistema.
+   *
+   * FRAMEWORK: SvelteKit + Svelte 5 (runes mode)
+   * JAVASCRIPT/SVELTE: $derived para cómputo reactivo desde stores
+   *
+   * ESTADÍSTICAS REACTIVAS (se actualizan automáticamente con los stores):
+   *   - totalUsers     → Total de usuarios registrados
+   *   - totalBooks     → Total de libros en el catálogo
+   *   - activeLoans    → Préstamos con status 'Activo' o 'Atrasado'
+   *   - activeSanciones → Sanciones en estado 'Activa'
+   *   - recentLoans    → Últimos 5 préstamos activos
+   *   - recentQuejas   → Últimas 3 quejas recibidas
+   *
+   * ALMACENAMIENTO: Lee desde stores reactivos (localStorage)
+   * INTERFACES RELACIONADAS: Catálogo, Préstamos, Sanciones, Reportes, Usuarios
+   */
   import { loggedUser, usuarios, libros, prestamos, sanciones, quejas } from '$lib/store.js';
   import { goto } from '$app/navigation';
 

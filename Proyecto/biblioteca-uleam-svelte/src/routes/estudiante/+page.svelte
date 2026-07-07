@@ -1,4 +1,27 @@
 <script>
+  /**
+   * INTERFAZ: DASHBOARD ESTUDIANTE / DOCENTE
+   * ------------------------------------------
+   * Funcionalidad: Panel de inicio personalizado para el usuario autenticado.
+   *
+   * FRAMEWORK: SvelteKit + Svelte 5 ($derived runes)
+   * JAVASCRIPT: Cálculos de fechas con Date API, filtrado reactivo
+   *
+   * FUNCIONALIDADES IDENTIFICADAS:
+   *   - Tarjeta: cantidad de préstamos activos del usuario
+   *   - Tarjeta: libros por devolver en los próximos 2 días (alerta temprana)
+   *   - Tarjeta: total de multas pendientes en dólares
+   *   - Sección de recomendaciones: libros con stock disponible (4 primeros)
+   *   - Acceso rápido al catálogo completo
+   *
+   * ALMACENAMIENTO LOCAL:
+   *   - Lee desde stores: $prestamos, $sanciones, $libros (filtrados por $loggedUser.id)
+   *   - No realiza escritura directa (solo lectura reactiva)
+   *
+   * VALIDACIONES JAVASCRIPT:
+   *   - Comparación de fechas para detectar vencimientos próximos
+   *   - Filtros: userId, status, stock > 0
+   */
   import { loggedUser, prestamos, sanciones, libros } from '$lib/store.js';
   import { goto } from '$app/navigation';
   

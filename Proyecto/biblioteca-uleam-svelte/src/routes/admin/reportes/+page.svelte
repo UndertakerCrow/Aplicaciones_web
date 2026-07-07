@@ -1,4 +1,27 @@
 <script>
+  /**
+   * INTERFAZ: REPORTES Y GESTIÓN DE QUEJAS (Admin)
+   * --------------------------------------------------
+   * Funcionalidad: Generación de reportes descargables y atención de quejas.
+   *
+   * FRAMEWORK: SvelteKit + Svelte 5
+   * JAVASCRIPT: Blob API para exportación JSON, lógica de estados de queja
+   *
+   * FUNCIONALIDADES IDENTIFICADAS:
+   *   - Descargar reporte de Préstamos en formato JSON (Blob + URL.createObjectURL)
+   *   - Descargar reporte de Inventario de libros en formato JSON
+   *   - Descargar reporte de Sanciones y multas en formato JSON
+   *   - Bandeja de quejas: ver todas las quejas de estudiantes
+   *   - Flujo de atención: Recibido → En Proceso → Resuelto
+   *
+   * ALMACENAMIENTO LOCAL:
+   *   - quejas.update() → persiste cambios de estado en localStorage
+   *   - Reportes se generan leyendo directamente los stores ($prestamos, $libros, $sanciones)
+   *
+   * JSON UTILIZADO:
+   *   - Los reportes exportados son el JSON serializado de los stores
+   *   - Nombre de archivo incluye fecha actual: reporte_biblioteca_{tipo}_{fecha}.json
+   */
   import { loggedUser, quejas, prestamos, libros, sanciones } from '$lib/store.js';
   import { goto } from '$app/navigation';
 

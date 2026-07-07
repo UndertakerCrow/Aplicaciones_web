@@ -1,4 +1,30 @@
 <script>
+  /**
+   * INTERFAZ: PERFIL DE USUARIO (Estudiante / Docente)
+   * -----------------------------------------------------
+   * Funcionalidad: Edición de datos personales y cambio de contraseña.
+   *
+   * FRAMEWORK: SvelteKit + Svelte 5 ($state, $effect runes)
+   * JAVASCRIPT: Validaciones de perfil y contraseña, sincronización reactiva
+   *
+   * FUNCIONALIDADES IDENTIFICADAS:
+   *   - Ver datos del perfil (ID y email: solo lectura)
+   *   - Editar nombre, carrera y teléfono
+   *   - Modal de cambio de contraseña (nueva + confirmación)
+   *   - Cierre de sesión
+   *
+   * VALIDACIONES DE CAMPOS (JavaScript):
+   *   - profNombre: requerido, mínimo 3 caracteres
+   *   - profCarrera: requerida
+   *   - profTelefono: requerido, solo dígitos, 10 caracteres
+   *   - Contraseña nueva: mínimo 6 caracteres
+   *   - Confirmación: debe coincidir con la nueva contraseña
+   *
+   * ALMACENAMIENTO LOCAL:
+   *   - usuarios.update() → persiste cambios de nombre/carrera/teléfono
+   *   - loggedUser.set()  → actualiza sesión activa con los nuevos datos
+   *   - $effect()         → sincroniza campos del formulario si cambia loggedUser
+   */
   import { loggedUser, usuarios, actions } from '$lib/store.js';
   import { goto } from '$app/navigation';
 

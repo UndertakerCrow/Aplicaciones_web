@@ -1,4 +1,28 @@
 <script>
+  /**
+   * INTERFAZ: GESTIÓN DE CATÁLOGO (Admin)
+   * ----------------------------------------
+   * Funcionalidad: CRUD completo del catálogo bibliográfico.
+   *
+   * FRAMEWORK: SvelteKit + Svelte 5
+   * JAVASCRIPT: Lógica de validación, alta/edición/eliminación de libros
+   *
+   * FUNCIONALIDADES IDENTIFICADAS:
+   *   - Listar libros con búsqueda (título, autor, ISBN) y filtro por categoría
+   *   - Agregar nuevo libro (modal con formulario)
+   *   - Editar libro existente (precarga de campos)
+   *   - Eliminar libro con confirmación
+   *   - Control de stock (numérico, >= 0)
+   *
+   * VALIDACIONES DE CAMPOS (JavaScript):
+   *   - título, autor, categoría, ISBN: requeridos (trim + length check)
+   *   - año: número entre 1000 y año actual
+   *   - páginas, stock, precio: numéricos positivos
+   *
+   * ALMACENAMIENTO LOCAL:
+   *   - libros.update() → persiste cambios en localStorage vía store reactivo
+   *   - filteredBooks ($derived) → refleja cambios inmediatamente en la tabla
+   */
   import { loggedUser, libros } from '$lib/store.js';
   import { goto } from '$app/navigation';
 

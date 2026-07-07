@@ -1,4 +1,28 @@
 <script>
+  /**
+   * INTERFAZ: MIS PRÉSTAMOS (Estudiante / Docente)
+   * -------------------------------------------------
+   * Funcionalidad: Visualización y gestión de préstamos personales.
+   *
+   * FRAMEWORK: SvelteKit + Svelte 5 ($derived runes)
+   * JAVASCRIPT: Filtrado reactivo por userId y status, integración con actions
+   *
+   * FUNCIONALIDADES IDENTIFICADAS:
+   *   - Tabla de préstamos activos y atrasados del usuario autenticado
+   *   - Tabla de historial de préstamos devueltos
+   *   - Acción de devolución → muestra multa generada si aplica
+   *   - Notificaciones toast con resultado de cada operación
+   *   - Indicadores de estado con badges visuales (Activo / Atrasado / Devuelto)
+   *
+   * VALIDACIONES (delegadas a actions.devolverPrestamo):
+   *   - Verifica que el préstamo exista y no esté ya devuelto
+   *   - Calcula días de retraso y monto de multa automáticamente
+   *
+   * ALMACENAMIENTO LOCAL:
+   *   - prestamos store → status actualizado a 'Devuelto' en localStorage
+   *   - libros store    → stock restaurado al devolver
+   *   - sanciones store → multa registrada si hay retraso
+   */
   import { loggedUser, prestamos, actions } from '$lib/store.js';
 
   let toastMessage = '';

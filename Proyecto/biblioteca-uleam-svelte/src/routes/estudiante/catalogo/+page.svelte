@@ -1,4 +1,30 @@
 <script>
+  /**
+   * INTERFAZ: CATÁLOGO DE LIBROS (Estudiante / Docente)
+   * ------------------------------------------------------
+   * Funcionalidad: Exploración del catálogo y solicitud de préstamos.
+   *
+   * FRAMEWORK: SvelteKit + Svelte 5 ($state, $derived, $effect runes)
+   * LIBRERÍA: $app/state (page) para lectura de parámetros URL
+   * JAVASCRIPT: Filtrado, modal de detalle, integración con actions
+   *
+   * FUNCIONALIDADES IDENTIFICADAS:
+   *   - Búsqueda de libros por título, autor o categoría (tiempo real)
+   *   - Filtro por categoría (generado dinámicamente desde los datos)
+   *   - Modal de detalle: portada, información completa del libro
+   *   - Solicitar préstamo → valida stock, límite y estado del usuario
+   *   - Acceso vía URL con parámetro ?search= (desde Dashboard)
+   *   - Notificaciones toast de éxito/error
+   *
+   * VALIDACIONES (delegadas a actions.solicitarPrestamo):
+   *   - Stock disponible > 0
+   *   - Usuario no bloqueado
+   *   - Límite de préstamos simultáneos no superado
+   *
+   * ALMACENAMIENTO LOCAL:
+   *   - prestamos store → nuevo préstamo persiste en localStorage
+   *   - libros store    → stock decrementado automáticamente
+   */
   import { page } from '$app/state';
   import { libros, config, loggedUser, actions } from '$lib/store.js';
 

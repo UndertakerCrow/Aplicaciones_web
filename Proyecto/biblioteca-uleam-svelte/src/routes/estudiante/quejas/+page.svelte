@@ -1,4 +1,27 @@
 <script>
+  /**
+   * INTERFAZ: QUEJAS Y SUGERENCIAS (Estudiante / Docente)
+   * --------------------------------------------------------
+   * Funcionalidad: Envío de quejas o sugerencias y seguimiento de su estado.
+   *
+   * FRAMEWORK: SvelteKit + Svelte 5 ($derived runes)
+   * JAVASCRIPT: Validación de formulario, integración con actions del store
+   *
+   * FUNCIONALIDADES IDENTIFICADAS:
+   *   - Formulario de nueva queja: asunto + descripción detallada
+   *   - Historial personal de quejas con estado actual (badges visuales)
+   *   - Estados posibles: Recibido → En Proceso → Resuelto
+   *   - Notificaciones toast de confirmación de envío
+   *
+   * VALIDACIONES DE CAMPOS (JavaScript):
+   *   - subject (asunto): requerido, no vacío
+   *   - desc (descripción): requerida, mínimo informativo
+   *   - Limpia el formulario tras envío exitoso
+   *
+   * ALMACENAMIENTO LOCAL:
+   *   - quejas store → nueva queja persiste en localStorage via actions.enviarQueja()
+   *   - studentQuejas ($derived) → historial filtrado reactivamente por loggedUser.id
+   */
   import { loggedUser, quejas, actions } from '$lib/store.js';
 
   let subject = '';

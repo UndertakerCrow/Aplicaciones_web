@@ -1,4 +1,26 @@
 <script>
+  /**
+   * INTERFAZ: LOGIN Y REGISTRO DE USUARIOS
+   * ----------------------------------------
+   * Funcionalidad: Autenticación y registro de nuevos usuarios.
+   *
+   * FRAMEWORK: SvelteKit (+page.svelte) con Svelte 5 runes ($state)
+   * JAVASCRIPT: Validaciones en handleLogin() y handleRegister()
+   *
+   * VALIDACIONES DE CAMPOS:
+   *   - email: requerido, debe contener "@"
+   *   - password: requerido, mínimo 6 caracteres
+   *   - Registro: nombre, carrera, teléfono, ID, email y contraseña requeridos
+   *   - Registro: verifica duplicados de ID y email antes de guardar
+   *
+   * ALMACENAMIENTO LOCAL:
+   *   - Nuevos usuarios se guardan en el store 'usuarios' (localStorage)
+   *   - La sesión activa se guarda en el store 'loggedUser' (localStorage)
+   *
+   * INTERFACES DEL SISTEMA:
+   *   - Rol Estudiante/Docente → redirige a /estudiante
+   *   - Rol Administrador      → redirige a /admin
+   */
   import { actions, usuarios } from '$lib/store.js';
   import { goto } from '$app/navigation';
   
